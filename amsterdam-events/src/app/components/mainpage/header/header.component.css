@@ -4,7 +4,7 @@ header {
 
 #title {
   position: relative;
-  margin-top: -50px;
+  top: -50px;
   margin-left: 38%;
   font-family: Verdana;
   font-weight: 600;
@@ -18,6 +18,8 @@ header {
   float: right;
   font-style: italic;
   z-index: 2;
+  left: 117px;
+  top: 10px;
 }
 
 #logo-left {
@@ -26,34 +28,4 @@ header {
 
 #logo-right {
   float: right;
-}
-
-#navbar-primary.navbar-default {
-  background: #f2efeb;
-  border: none;
-}
-
-#navbar-primary.navbar-default .navbar {
-  width: 100%;
-  text-align: center;
-  justify-content: center;
-  margin-left: 92px;
-}
-
-#navbar-primary.navbar-default .navbar > li {
-  display: inline-block;
-  float: none;
-  padding: 8px;
-}
-
-#navbar-primary.navbar-default .navbar > li:hover {
-  background-color: #cacaca;
-  text-decoration: none;
-}
-
-#navbar-primary.navbar-default .navbar > li > a {
-  padding-left: 15px;
-  padding-right: 15px;
-  color: black;
-  text-decoration: none;
 }

@@ -1,0 +1,29 @@
+#navbar-primary.navbar-default {
+  background: #f2efeb;
+  border: none;
+  margin-top: -27px;
+}
+
+#navbar-primary.navbar-default .navbar {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}
+
+#navbar-primary.navbar-default .navbar > li {
+  display: inline-block;
+  float: none;
+  padding: 8px;
+}
+
+#navbar-primary.navbar-default .navbar > li:hover {
+  background-color: #cacaca;
+  text-decoration: none;
+}
+
+#navbar-primary.navbar-default .navbar > li > a {
+  padding-left: 15px;
+  padding-right: 15px;
+  color: black;
+  text-decoration: none;
+}
