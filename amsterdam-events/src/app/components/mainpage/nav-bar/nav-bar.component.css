@@ -13,7 +13,7 @@
 #navbar-primary.navbar-default .navbar > li {
   display: inline-block;
   float: none;
-  padding: 8px;
+  padding: 10px
 }
 
 #navbar-primary.navbar-default .navbar > li:hover {
@@ -24,6 +24,29 @@
 #navbar-primary.navbar-default .navbar > li > a {
   padding-left: 15px;
   padding-right: 15px;
+  color: black;
+  text-decoration: none;
+}
+
+#navbar-primary.navbar-default .navbar .dropdown-menu {
+  background-color: #f2efeb;
+  text-align: center;
+  left: auto;
+  border: #cacaca solid 1px;
+  border-radius: 0px;
+}
+
+#navbar-primary.navbar-default .navbar .dropdown-menu > li {
+  color: black;
+  text-decoration: none;
+  padding: 8px;
+}
+
+#navbar-primary.navbar-default .navbar .dropdown-menu > li:hover {
+  background-color: #cacaca;
+}
+
+#navbar-primary.navbar-default .navbar .dropdown-menu > li > a {
   color: black;
   text-decoration: none;
 }
