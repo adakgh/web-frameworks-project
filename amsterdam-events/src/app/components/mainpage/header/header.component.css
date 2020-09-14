@@ -4,7 +4,7 @@ header {
 
 #title {
   position: relative;
-  top: -50px;
+  top: 20px;
   margin-left: 38%;
   font-family: Verdana;
   font-weight: 600;
@@ -23,9 +23,13 @@ header {
 }
 
 #logo-left {
-  margin-top: 5px;
+  float: left;
 }
 
 #logo-right {
   float: right;
+}
+
+#time-left {
+  float: left;
 }

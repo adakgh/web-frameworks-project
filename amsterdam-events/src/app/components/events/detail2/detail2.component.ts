@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {AEvent} from '../../../models/a-event';
 
 @Component({
   selector: 'app-detail2',
@@ -6,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./detail2.component.css']
 })
 export class Detail2Component implements OnInit {
+  @Input()
+  public editedEvent: AEvent;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

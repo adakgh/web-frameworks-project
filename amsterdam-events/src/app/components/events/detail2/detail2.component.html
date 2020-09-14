@@ -1,1 +1,45 @@
 <p>detail2 works!</p>
+<div class="validation">
+
+  <table id="tabeSelect">
+    <tr>
+      <th>Selected Event details</th>
+    </tr>
+  </table>
+
+  <table id="tabelDetail2">
+
+    <tr>
+      <td>Title</td>
+      <td><input type="text" [(ngModel)]="editedEvent.title"></td>
+    <tr>
+
+    <tr>
+      <td>start</td>
+      <td><input type="text" [(ngModel)]="editedEvent.start"></td>
+    </tr>
+
+    <tr>
+      <td>End</td>
+      <td><input type="text" [(ngModel)]="editedEvent.end"></td>
+    </tr>
+
+    <tr>
+      <td>Status</td>
+      <td><input type="text" [(ngModel)]="editedEvent.status"></td>
+    </tr>
+
+    <tr>
+      <td>Entrance Fee</td>
+      <td><input type="text" [(ngModel)]="editedEvent.participationFee"></td>
+    </tr>
+
+    <tr>
+      <td>Max Participants</td>
+      <td><input type="text" [(ngModel)]="editedEvent.maxParticipants"></td>
+    </tr>
+
+  </table>
+
+
+</div>
