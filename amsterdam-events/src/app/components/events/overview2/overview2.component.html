@@ -1,27 +1,24 @@
-<p>overview2 works!</p>
-<div class="list">
-  <h2>List of all Events</h2>
+<div class="listen">
+
+  <app-detail2 [editedEvent]="selectedEvent"></app-detail2>
+
+  <h1>List of all Events</h1>
 
 
-  <table>
+  <table id="titelEventTabel">
     <tr>
-      <th>Titel</th>
-      <th>Strat</th>
-      <th>End</th>
-      <th>Status</th>
-      <th>Entrance Fee</th>
-      <th>Max Participants</th>
+      <th>Event title</th>
     </tr>
 
-    <tr *ngFor="let ae of aEvents">
-      <td>{{ae.title}}</td>
-      <th>{{ae.start}}</th>
-      <th>{{ae.end}}</th>
-      <th>{{ae.status}}</th>
-      <th>{{ae.participationFee < 3.50 ? "free" : ae.participationFee + "$"}}</th>
-      <th>{{ae.participationFee < 3.50 ? null : ae.maxParticipants}}</th>
+    <tr *ngFor="let ae of aEvents; let aIndex = index">
+      <td (click)="onSelect(aIndex)">{{ae.title}}</td>
 
     </tr>
 
   </table>
+
+  <button (click)="handelClick()"
+          class="btnAdd">Add Event
+  </button>
+
 </div>

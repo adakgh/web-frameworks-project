@@ -21,6 +21,20 @@ export class Overview2Component implements OnInit {
     }
   }
 
+  onSelect(aIndex): void {
+    this.selectedIndex = aIndex;
+    console.log(this.aEvents[aIndex]);
+    this.selectedEvent = this.aEvents[aIndex];
+  }
+
+  handelClick(): void {
+    this.addRandomAEvent();
+    // this.onSelect(this.aEvents.length);
+    for (let i = 0; i < this.aEvents.length; i++) {
+      this.onSelect(i);
+    }
+  }
+
   addRandomAEvent(): void {
     const ai = new AEvent('some event', AEventStatus.DRAFT, new Date(2020, 9, 15)
       , true, new Date(2020, 10, 15)

@@ -1,12 +1,38 @@
-<p>overview1 works!</p>
+<div class="col-12">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">title</th>
+      <th scope="col">status</th>
+      <th scope="col">start</th>
+      <th scope="col">ticketed</th>
+      <th scope="col">end</th>
+      <th scope="col">participation</th>
+      <th scope="col">description</th>
+      <th scope="col">maxParticipation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let aevent">
+      <td>{{aevent.title}}</td>
+      <td>{{aevent.status}}</td>
+      <td>{{aevent.start.toLocaleDateString()}}</td>
+      <td>{{aevent.end.toLocaleDateString()}}</td>
+      <td>{{aevent.isTicketed}}</td>
+      <td>{{aevent.participationFee}}</td>
+      <td>{{aevent.description}}</td>
+      <td>{{aevent.maxParticipants}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 <div class="listen">
   <h2>List of all Events</h2>
-
 
   <table>
     <tr>
       <th>Titel</th>
-      <th>Strat</th>
+      <th>Start</th>
       <th>End</th>
       <th>Status</th>
       <th>Entrance Fee</th>
@@ -22,7 +48,6 @@
       <th>{{ae.participationFee < 3.50 ? null : ae.maxParticipants}}</th>
 
     </tr>
-
 
   </table>
   <button (click)="handelClick()"
