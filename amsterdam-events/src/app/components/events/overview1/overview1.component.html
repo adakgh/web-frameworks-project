@@ -1,57 +1,32 @@
-<div class="col-12">
+<h3 class="mt-4 mb-2 ml-5">List of all Events</h3>
+
+<div class="col-12 mt-4">
   <table class="table">
     <thead>
     <tr>
-      <th scope="col">title</th>
-      <th scope="col">status</th>
-      <th scope="col">start</th>
-      <th scope="col">ticketed</th>
-      <th scope="col">end</th>
-      <th scope="col">participation</th>
-      <th scope="col">description</th>
-      <th scope="col">maxParticipation</th>
+      <th scope="col">Id</th>
+      <th scope="col">Title</th>
+      <th scope="col">Start</th>
+      <th scope="col">End</th>
+      <th scope="col">Status</th>
+      <th scope="col">Entrance Fee</th>
+      <th scope="col">Max Participants</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let aevent">
+    <tr *ngFor="let aevent of aEvents">
+      <td>{{aevent.id}}</td>
       <td>{{aevent.title}}</td>
+      <td>{{aevent.start.toUTCString().slice(0, 22)}}</td>
+      <td>{{aevent.end.toUTCString().slice(0, 22)}}</td>
       <td>{{aevent.status}}</td>
-      <td>{{aevent.start.toLocaleDateString()}}</td>
-      <td>{{aevent.end.toLocaleDateString()}}</td>
-      <td>{{aevent.isTicketed}}</td>
-      <td>{{aevent.participationFee}}</td>
-      <td>{{aevent.description}}</td>
+      <td>{{aevent.isTicketed == false ? "free" : "€ " + aevent.participationFee}}</td>
       <td>{{aevent.maxParticipants}}</td>
     </tr>
     </tbody>
   </table>
-</div>
-<div class="listen">
-  <h2>List of all Events</h2>
 
-  <table>
-    <tr>
-      <th>Titel</th>
-      <th>Start</th>
-      <th>End</th>
-      <th>Status</th>
-      <th>Entrance Fee</th>
-      <th>Max Participants</th>
-    </tr>
-
-    <tr *ngFor="let ae of aEvents">
-      <td>{{ae.title}}</td>
-      <th>{{ae.start}}</th>
-      <th>{{ae.end}}</th>
-      <th>{{ae.status}}</th>
-      <th>{{ae.participationFee < 3.50 ? "free" : ae.participationFee + "$"}}</th>
-      <th>{{ae.participationFee < 3.50 ? null : ae.maxParticipants}}</th>
-
-    </tr>
-
-  </table>
   <button (click)="handelClick()"
           class="btnAdd">Add Event
   </button>
-
 </div>

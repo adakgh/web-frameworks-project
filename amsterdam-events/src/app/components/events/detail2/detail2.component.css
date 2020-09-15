@@ -1,0 +1,47 @@
+/*.validation {*/
+/*  float: right;*/
+/*  display: inline-block;*/
+/*}*/
+
+input {
+  width: 100%;
+}
+
+table {
+  background-color: #cacaca;
+  color: black;
+  width: 80%;
+}
+
+td {
+  color: black;
+  border: black solid 1px;
+  width: 30%;
+}
+
+th {
+  padding: 8px;
+}
+
+#tabeSelect{
+  padding: 8px;
+}
+
+.btnDelete {
+  color: black;
+  cursor: pointer;
+  margin-bottom: 10px;
+  background-color: #DCDCDC;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  float: right;
+  margin-right: 185px;
+}
+
+.btnDelete:hover {
+  background-color: dimgray;
+}
