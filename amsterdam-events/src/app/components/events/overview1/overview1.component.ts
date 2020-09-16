@@ -7,8 +7,7 @@ import {AEvent, AEventStatus} from '../../../models/a-event';
   styleUrls: ['./overview1.component.css']
 })
 export class Overview1Component implements OnInit {
-
-  public aEvents: AEvent[];
+  aEvents: AEvent[];
 
   constructor() {
   }
@@ -22,6 +21,8 @@ export class Overview1Component implements OnInit {
 
   addRandomAEvent() {
     this.aEvents.push(AEvent.createRandomAEvent());
+
+    this.aEvents.push()
   }
 
   handelClick(): void {

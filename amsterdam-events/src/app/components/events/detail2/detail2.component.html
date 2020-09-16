@@ -17,17 +17,17 @@
     <tr>
       <td>Status</td>
       <td>
-        <!--      <select class="custom-select" name="status" [(ngModel)]="editedEvent.status">-->
-        <!--      <option *ngFor="let status of editedEvent"-->
-        <!--              [selected]="status == editedEvent.status">{{ status }}</option></select>-->
-        <input type="text" [(ngModel)]="editedEvent.status">
-
+        <select [(ngModel)]="editedEvent.status">
+          <option>DRAFT</option>
+          <option>CANCELED</option>
+          <option>PUBLISHED</option>
+        </select>
       </td>
     </tr>
 
     <tr>
       <td>Is Ticketed</td>
-      <td><input type="checkbox" [(ngModel)]="editedEvent.isTicketed"></td>
+      <td class="checkbox"><input type="checkbox" [(ngModel)]="editedEvent.isTicketed"></td>
     </tr>
 
     <tr>
@@ -41,7 +41,7 @@
     </tr>
 
   </table>
-  <button class="btnDelete mt-2">Delete</button>
+  <button (click)="removeEditedEvent()" class="btnDelete mt-2">Delete</button>
 </div>
 
 <ng-template #text>

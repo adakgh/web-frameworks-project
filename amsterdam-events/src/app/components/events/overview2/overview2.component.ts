@@ -7,11 +7,26 @@ import {AEvent, AEventStatus} from '../../../models/a-event';
   styleUrls: ['./overview2.component.css']
 })
 export class Overview2Component implements OnInit {
-  public aEvents: AEvent [];
-  public selectedIndex: number;
-  public selectedEvent: AEvent;
+  aEvents: AEvent [];
+  selectedIndex: number;
+  selectedEvent: AEvent;
+
+  highlightRow: number;
+  selectedAEvent = null;
+  clickedRow: any;
 
   constructor() {
+    this.clickedRow = function (index) {
+      this.highlightRow = index;
+    }
+  }
+
+  isSelected(event) {
+    this.selectedAEvent = event;
+
+    this.selectedIndex = event;
+    console.log(this.aEvents[event]);
+    this.selectedEvent = this.aEvents[event];
   }
 
   ngOnInit(): void {
@@ -21,22 +36,25 @@ export class Overview2Component implements OnInit {
     }
   }
 
-  onSelect(aIndex): void {
-    this.selectedIndex = aIndex;
-    console.log(this.aEvents[aIndex]);
-    this.selectedEvent = this.aEvents[aIndex];
-  }
-
   handelClick(): void {
     this.addRandomAEvent();
     // this.onSelect(this.aEvents.length);
     for (let i = 0; i < this.aEvents.length; i++) {
-      this.onSelect(i);
+      this.isSelected(i);
     }
   }
 
   addRandomAEvent(): void {
     this.aEvents.push(AEvent.createRandomAEvent());
   }
-}
 
+  deleteClick(event: AEvent) {
+    const index = this.aEvents.indexOf(event);
+
+    if (index > -1) {
+      this.aEvents.splice(index, 1);
+    } else {
+      return;
+    }
+  }
+}

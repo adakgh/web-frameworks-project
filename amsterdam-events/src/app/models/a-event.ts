@@ -14,6 +14,8 @@ export class AEvent {
   isTicketed: Boolean;
   participationFee: number;
   maxParticipants: number;
+  private static eventid = 20001;
+
 
   constructor(id: number, title: string, start: Date, end: Date, description: string, status: AEventStatus, isTicketed: Boolean, participationFee: number, maxParticipants: number) {
     this.id = id;
@@ -27,12 +29,12 @@ export class AEvent {
     this.maxParticipants = maxParticipants;
   }
 
-  // @ts-ignore
+// @ts-ignore
   public static createRandomAEvent(): AEvent {
     // @ts-ignore
     const ai = new AEvent();
 
-    ai.id = 20001;
+    ai.id = this.eventid++;
     ai.title = 'The Fantastic Event-' + ai.id;
 
     ai.start = this.randomDate(new Date(2020, 9, 20), new Date(2020, 10, 29));
