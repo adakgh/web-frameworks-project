@@ -41,6 +41,8 @@ export class Overview2Component implements OnInit {
     // this.onSelect(this.aEvents.length);
     for (let i = 0; i < this.aEvents.length; i++) {
       this.isSelected(i);
+
+      this.highlightRow = i;
     }
   }
 

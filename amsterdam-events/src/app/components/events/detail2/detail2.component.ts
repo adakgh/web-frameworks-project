@@ -7,8 +7,8 @@ import {AEvent} from '../../../models/a-event';
   styleUrls: ['./detail2.component.css']
 })
 export class Detail2Component implements OnInit {
-  @Input() editedEvent: AEvent;
   aEvents: AEvent [];
+  @Input() editedEvent: AEvent;
   @Output() removeEvent = new EventEmitter<AEvent>();
 
   constructor() {
@@ -16,19 +16,7 @@ export class Detail2Component implements OnInit {
 
   ngOnInit(): void {
   }
-
-  deleteClick(event): void {
-    const index = this.aEvents.indexOf(event, 0);
-
-    for (let i = 0; i < this.aEvents.length; i++) {
-      if (index > -1) {
-        this.aEvents.splice(index, 1);
-      } else {
-        return;
-      }
-    }
-  }
-
+  
   removeEditedEvent() {
     this.removeEvent.emit(this.editedEvent);
   }

@@ -21,8 +21,6 @@ export class Overview1Component implements OnInit {
 
   addRandomAEvent() {
     this.aEvents.push(AEvent.createRandomAEvent());
-
-    this.aEvents.push()
   }
 
   handelClick(): void {

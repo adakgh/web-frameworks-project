@@ -7,17 +7,18 @@
         <th>Event title</th>
       </tr>
 
-      <tr *ngFor="let ae of aEvents let aIndex = index"
+      <tr *ngFor="let ae of aEvents; let aIndex = index"
           (click)="clickedRow(aIndex)" [class.active]="aIndex == highlightRow">
         <td (click)="isSelected(aIndex)">{{ae.title}}</td>
       </tr>
+
     </table>
 
-    <button (click)="handelClick()" class="btnAdd mt-2">Add Event</button>
+    <button (click)="handelClick()" class="btnAdd mt-4 mb-2">Add Event</button>
   </div>
 
   <div class="table-responsive col-md-8">
-    <app-detail2 [editedEvent]="selectedEvent" (removeEvent) = "deleteClick($event)"></app-detail2>
+    <app-detail2 [editedEvent]="selectedEvent" (removeEvent)="deleteClick($event)"></app-detail2>
   </div>
 
 </div>

@@ -14,6 +14,7 @@ export class AEvent {
   isTicketed: Boolean;
   participationFee: number;
   maxParticipants: number;
+
   private static eventid = 20001;
 
 
@@ -29,7 +30,7 @@ export class AEvent {
     this.maxParticipants = maxParticipants;
   }
 
-// @ts-ignore
+  // @ts-ignore
   public static createRandomAEvent(): AEvent {
     // @ts-ignore
     const ai = new AEvent();
@@ -44,7 +45,7 @@ export class AEvent {
 
     ai.status = this.getRandomStatue();
 
-    ai.participationFee = Math.round(((Math.random() * 50) + Number.EPSILON) * 100) / 100;
+    ai.participationFee = Math.round(((Math.random() * 50) + Number.EPSILON) * 100.0) / 100.0;
 
     ai.isTicketed = Math.random() < 0.5;
 
