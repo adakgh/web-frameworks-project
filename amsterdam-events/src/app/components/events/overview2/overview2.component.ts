@@ -55,6 +55,8 @@ export class Overview2Component implements OnInit {
 
     if (index > -1) {
       this.aEvents.splice(index, 1);
+
+      this.isSelected(null);
     } else {
       return;
     }
