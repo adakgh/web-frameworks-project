@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {AEvent} from '../../../models/a-event';
+import {AEventsService} from '../../../services/a-events.service';
 
 @Component({
   selector: 'app-overview3',
@@ -7,7 +9,15 @@ import {Component, OnInit} from '@angular/core';
 })
 export class Overview3Component implements OnInit {
 
-  constructor() {
+  public selectedAEventId: number;
+  aevents: AEvent[];
+
+  constructor(private aEventsService: AEventsService) {
+    this.aevents = aEventsService.findAll();
+  }
+
+  onEventSelected(aEvent: AEvent): void {
+    this.selectedAEventId = aEvent.id;
   }
 
   ngOnInit(): void {

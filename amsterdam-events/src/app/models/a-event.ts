@@ -15,8 +15,17 @@ export class AEvent {
   participationFee: number;
   maxParticipants: number;
 
-  private static eventid = 20001;
+  public equals(e): boolean {
+    return this.title === e.title &&
+      this.description === e.description &&
+      this.start === e.start &&
+      this.end === e.end &&
+      this.status === e.status &&
+      this.maxParticipants === e.maxParticipants &&
+      this.participationFee === e.participationFee;
+  }
 
+  private static eventid = 20001;
 
   constructor(id: number, title: string, start: Date, end: Date, description: string, status: AEventStatus, isTicketed: Boolean, participationFee: number, maxParticipants: number) {
     this.id = id;
@@ -41,7 +50,7 @@ export class AEvent {
     ai.start = this.randomDate(new Date(2020, 9, 20), new Date(2020, 10, 29));
     ai.end = this.randomDate(ai.start, new Date(2021, 10, 30));
 
-    ai.description = "example description";
+    ai.description = 'example description';
 
     ai.status = this.getRandomStatue();
 
@@ -49,7 +58,7 @@ export class AEvent {
 
     ai.isTicketed = Math.random() < 0.5;
 
-    if (ai.isTicketed == false) {
+    if (ai.isTicketed === false) {
       const fee = null;
       ai.participationFee = fee || 'free';
       ai.maxParticipants = null;

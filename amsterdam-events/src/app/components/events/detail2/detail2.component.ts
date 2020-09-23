@@ -16,7 +16,7 @@ export class Detail2Component implements OnInit {
 
   ngOnInit(): void {
   }
-  
+
   removeEditedEvent() {
     this.removeEvent.emit(this.editedEvent);
   }

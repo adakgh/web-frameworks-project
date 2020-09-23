@@ -1,1 +1,18 @@
 <p>overview3 works!</p>
+<div class="col-3">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Event title</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let aevent of aevents">
+      <td class="pointer" (click)="onEventSelected(aevent)">{{aevent.title}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="col-9">
+  <app-detail3 [(editedAEventId)]="selectedAEventId"></app-detail3>
+</div>
