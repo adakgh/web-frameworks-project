@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AEvent, AEventStatus} from 'src/app/models/a-event';
 import {AEventsService} from 'src/app/services/a-events.service';
 
@@ -7,10 +7,10 @@ import {AEventsService} from 'src/app/services/a-events.service';
   templateUrl: './detail3.component.html',
   styleUrls: ['./detail3.component.css']
 })
-export class Detail3Component implements OnInit, OnChanges {
+export class Detail3Component implements OnInit {
 
-  editedAeventId: number;
-  editedAevent: AEvent;
+  private editedAeventId: number;
+  public editedAevent: AEvent;
 
   @Input()
   set editedAEventId(id: number) {
@@ -24,6 +24,10 @@ export class Detail3Component implements OnInit, OnChanges {
 
   constructor(private aEventsService: AEventsService) {
     console.log('it\'s working');
+  }
+
+  onSetTO(aEvent: AEvent) {
+    this.aEventsService.update(this.editedAeventId, aEvent);
   }
 
   saveClick() {
