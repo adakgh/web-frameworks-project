@@ -11,6 +11,8 @@ import {Overview1Component} from './components/events/overview1/overview1.compon
 import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
+import {Overview3Component} from './events/overview3/overview3.component';
+import {Detail3Component} from './components/events/detail3/detail3.component';
 
 const appRoutes: Routes = [
   {path: 'Home', component: HomeComponent},
@@ -27,6 +29,8 @@ const appRoutes: Routes = [
     Overview2Component,
     Detail2Component,
     Overview1Component,
+    Overview3Component,
+    Detail3Component,
   ],
   imports: [
     BrowserModule,

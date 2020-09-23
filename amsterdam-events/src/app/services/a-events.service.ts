@@ -10,7 +10,6 @@ export class AEventsService {
 
   constructor() {
     this.aEvents = [];
-
     for (let i = 0; i < 9; i++) {
       // this.addRandomAEvent()
     };
