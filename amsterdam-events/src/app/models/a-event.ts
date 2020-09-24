@@ -32,7 +32,6 @@ export class AEvent {
   participationFee: number;
   maxParticipants: number;
 
-  // @ts-ignore
   public static createRandomAEvent(): AEvent {
     // @ts-ignore
     const ai = new AEvent();
@@ -80,11 +79,6 @@ export class AEvent {
     } else {
       return null;
     }
-  }
-
-  static copyTrue(event: AEvent): AEvent {
-    // @ts-ignore
-    return Object.assign(new AEvent(), event);
   }
 
   public equals(e): boolean {

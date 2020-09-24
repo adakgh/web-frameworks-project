@@ -8,33 +8,16 @@ import {AEventsService} from '../../../services/a-events.service';
   styleUrls: ['./overview3.component.css']
 })
 export class Overview3Component implements OnInit {
-  public selectedAEventId: number;
+  selectedAEventId = -1;
   aevents: AEvent[];
-  selectedIndex: number;
-  selectedEvent: AEvent;
 
-  highlightRow: number;
-  selectedAEvent = null;
-  clickedRow: any;
 
-  constructor(private aEventsService: AEventsService) {
+  constructor(public aEventsService: AEventsService) {
     this.aevents = aEventsService.findAll();
-
-    // tslint:disable-next-line:typedef
-    this.clickedRow = function(index) {
-      this.highlightRow = index;
-    };
   }
 
   onEventSelected(aEvent: AEvent): void {
     this.selectedAEventId = aEvent.id;
-  }
-
-  // tslint:disable-next-line:typedef
-  isSelected(event) {
-    this.selectedAEvent = event;
-    this.selectedIndex = event;
-    this.selectedEvent = this.aevents[event];
   }
 
   ngOnInit(): void {
@@ -42,11 +25,6 @@ export class Overview3Component implements OnInit {
 
   handelClick(): void {
     this.addRandomAEvent();
-
-    for (let i = 0; i < this.aevents.length; i++) {
-      this.isSelected(i);
-      this.highlightRow = i;
-    }
   }
 
   addRandomAEvent(): void {

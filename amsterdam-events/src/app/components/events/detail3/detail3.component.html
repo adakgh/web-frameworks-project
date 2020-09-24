@@ -1,51 +1,50 @@
-<div class="validation" *ngIf="editedAEventId >= 0; else text">
+<div class="validation" *ngIf="editedAEventId !== -1; else text">
   <table class="tabelSelect">
     <tr>
-      <th>Selected Event details (id = {{editedAevent.id}})</th>
+      <th>Selected Event details (id = {{editedAEvent.id}})</th>
     </tr>
 
     <tr>
       <td>Title</td>
-      <td><input type="text" [(ngModel)]="editedAevent.title" (ngModelChange)="isEdited = true"></td>
+      <td><input type="text" [(ngModel)]="editedAEvent.title"></td>
     <tr>
 
     <tr>
       <td>Description</td>
-      <td><input type="text" [(ngModel)]="editedAevent.description" (ngModelChange)="isEdited = true"></td>
+      <td><input type="text" [(ngModel)]="editedAEvent.description"></td>
     </tr>
 
     <tr>
       <td>Status</td>
       <td>
-        <select type="text" name="status" class="custom-select" [(ngModel)]="editedAevent.status" (ngModelChange)="isEdited = true">
-          <option value="DRAFT">DRAFT</option>
-          <option value="PUBLISHED">PUBLISHED</option>
-          <option value="CANCELED">CANCELED</option>
+        <select name="status" class="custom-select" [(ngModel)]="editedAEvent.status">
+          <option *ngFor="let status of getEventStatus()" [ngValue]="status">{{status}}</option>
         </select>
       </td>
     </tr>
 
     <tr>
-      <th scope="col">Is Ticketed</th>
-      <td><input type="checkbox" [(ngModel)]="editedAevent.isTicketed" value="{{editedAevent.isTicketed}}" (ngModelChange)="isEdited = true"></td>
+      <td> Is Ticketed</td>
+      <td><input type="checkbox" [(ngModel)]="editedAEvent.isTicketed"></td>
     </tr>
 
     <tr>
-      <th scope="col">Participation Fee</th>
-      <td><input type="text" [(ngModel)]="editedAevent.participationFee" value="{{editedAevent.participationFee}}" (ngModelChange)="isEdited = true"></td>
+      <td> Participation fee</td>
+      <td><input type="text" [(ngModel)]="editedAEvent.participationFee"></td>
     </tr>
 
     <tr>
-      <th scope="col">Maximum participants</th>
-      <td><input type="text" [(ngModel)]="editedAevent.maxParticipants" value="{{editedAevent.maxParticipants}}" (ngModelChange)="isEdited = true"></td>
+      <td>Maximum participants</td>
+      <td><input type="number" [(ngModel)]="editedAEvent.maxParticipants"></td>
     </tr>
 
   </table>
-  <button (click)="deleteClick()" [disabled]="!isEdited" class="btn">Delete</button>
-  <button (click)="saveClick()" [disabled]="!isEdited" class="btn">Save</button>
-  <button (click)="clearClick()" class="btn">Clear</button>
-  <button (click)="resetClick()" [disabled]="!isEdited" class="btn">Reset</button>
-  <button (click)="cancelClick()" class="btn">Cancel</button>
+  <br>
+  <button (click)="deleteClick()" [disabled]="hasChanged()" type="btn">Delete</button>
+  <button (click)="saveClick()" [disabled]="hasChanged()" type="btn">Save</button>
+  <button (click)="clearClick()" type="btn">Clear</button>
+  <button (click)="resetClick()" [disabled]="hasChanged()" type="btn">Reset</button>
+  <button (click)="cancelClick()" type="btn">Cancel</button>
 </div>
 
 <ng-template #text>

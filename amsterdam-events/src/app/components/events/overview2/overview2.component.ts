@@ -41,7 +41,7 @@ export class Overview2Component implements OnInit {
   handelClick(): void {
     this.addRandomAEvent();
     // this.onSelect(this.aEvents.length);
-    for (let i = 0; i < this.aEvents.length; i++) {
+    for (let i = 0; i < 9; i++) {
       this.isSelected(i);
 
       this.highlightRow = i;

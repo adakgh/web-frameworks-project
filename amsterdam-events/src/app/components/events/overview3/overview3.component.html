@@ -1,21 +1,20 @@
 <h3 class="mt-4 mb-2 ml-5">Overview of all Events</h3>
 
 <div class="row mt-4">
-<div class="col-md-4 table-responsive">
-  <table id="titelEventTabel" class="ml-5">
-    <tr>
-      <th scope="col">Event title</th>
-    </tr>
+  <div class="col-md-4 table-responsive">
+    <table id="titelEventTabel" class="ml-5">
+      <tr>
+        <th>Event title</th>
+      </tr>
 
-    <tr *ngFor="let aevent of aevents; let aIndex = index"
-        (click)="clickedRow(aIndex)" [class.active]="aIndex == highlightRow">
-      <td (click)="onEventSelected(aevent); isSelected(aIndex)">{{aevent.title}}</td>
-    </tr>
+      <tr *ngFor="let aevent of aevents" [class.active]="aevent.id == selectedAEventId">
+        <td (click)="selectedAEventId = aevent.id">{{aevent.title}}</td>
+      </tr>
 
-  </table>
-  <button (click)="handelClick()" class="btnAdd mt-4 mb-2">Add Event</button>
-</div>
-<div class="col-md-8">
-  <app-detail3 [editedAEventId]="selectedAEventId"></app-detail3>
-</div>
+    </table>
+    <button (click)="handelClick()" class="btnAdd mt-4 mb-2">Add Event</button>
+  </div>
+  <div class="col-md-8">
+    <app-detail3 [(editedAEventId)]="selectedAEventId"></app-detail3>
+  </div>
 </div>

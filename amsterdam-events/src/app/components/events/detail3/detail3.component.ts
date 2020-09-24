@@ -1,8 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AEvent, AEventStatus} from 'src/app/models/a-event';
 import {AEventsService} from 'src/app/services/a-events.service';
 import {Overview3Component} from '../overview3/overview3.component';
-import {Detail2Component} from '../detail2/detail2.component';
 
 @Component({
   selector: 'app-detail3',
@@ -10,110 +9,105 @@ import {Detail2Component} from '../detail2/detail2.component';
   styleUrls: ['./detail3.component.css']
 })
 export class Detail3Component implements OnInit {
-  @Input() editedAeventId: number;
-  @Input() editedAevent: AEvent;
-
-  @Input() isEdited: boolean;
-  @Input() copyEditedEvent: AEvent;
-  @Input() copyEditedEventId: number;
-
-  @Output() editedEventIdChange = new EventEmitter<number>();
-  @Output() checkEditedEventChange = new EventEmitter<boolean>();
-
   @Input()
+  get editedAEventId(): number {
+    return this._editedAEventId;
+  }
+
+  // tslint:disable-next-line:typedef
   set editedAEventId(id: number) {
-    this.editedAeventId = id;
-    this.editedAevent = this.aEventsService.getaEvents()[id];
+    this._editedAEventId = id;
+
+    // tslint:disable-next-line:max-line-length
+    this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
+  }
+
+  // tslint:disable-next-line:variable-name
+  @Input() _editedAEventId = -1;
+
+  @Input() editedAEvent: AEvent;
+  uneditedAEvent: AEvent;
+
+  constructor(private aEventService: AEventsService) {
+  }
+
+  ngOnInit(): void {
+    this.aEventService.update(this.editedAEventId, this.editedAEvent);
+    this.resetSelectedAEvent();
   }
 
   // tslint:disable-next-line:typedef
-  get editedAEventId() {
-    return this.editedAeventId;
-  }
-
-  constructor(private aEventsService: AEventsService) {
-    console.log('it\'s working');
-  }
-
-  // tslint:disable-next-line:typedef
-  onSetTO(aEvent: AEvent) {
-    this.aEventsService.update(this.editedAeventId, aEvent);
-  }
-
-  // tslint:disable-next-line:typedef
-  deleteClick() {
-    if (this.popup) {
-      this.aEventsService.remove(this.editedAeventId);
-      this.isEdited = null;
-    }
-  }
-
-  // tslint:disable-next-line:typedef
-  saveClick() {
-    this.aEventsService.update(this.editedAeventId, this.editedAevent);
-  }
-
-  // tslint:disable-next-line:typedef
-  clearClick() {
-    if (this.popup()) {
-      this.editedAevent.title = null;
-      this.editedAevent.description = null;
-      this.editedAevent.participationFee = null;
-      this.editedAevent.end = null;
-      this.editedAevent.status = null;
-      this.editedAevent.start = null;
-      this.editedAevent.maxParticipants = null;
-    }
-  }
-
-  // tslint:disable-next-line:typedef
-  resetClick() {
-    if (this.popup()) {
-      this.editedAevent.title = this.aEventsService.getaEvents()[this.editedAeventId].title;
-      this.editedAevent.start = this.aEventsService.getaEvents()[this.editedAeventId].start;
-      this.editedAevent.end = this.aEventsService.getaEvents()[this.editedAeventId].end;
-      this.editedAevent.status = this.aEventsService.getaEvents()[this.editedAeventId].status;
-      this.editedAevent.maxParticipants = this.aEventsService.getaEvents()[this.editedAeventId].maxParticipants;
-      this.editedAevent.participationFee = this.aEventsService.getaEvents()[this.editedAeventId].participationFee;
-    }
-  }
-
-  // tslint:disable-next-line:typedef
-  cancelClick() {
-    if (this.popup()) {
-      this.editedAevent = null;
-      this.editedAeventId = -1;
-    }
+  getEventStatus(): Array<string> {
+    return Object.keys(AEventStatus);
   }
 
   // tslint:disable-next-line:typedef
   popup() {
-    return confirm('are you sure to discard unsaved changes!');
+    // tslint:disable-next-line:triple-equals no-empty
+    // @ts-ignore
+    return confirm('are you sure to discard unsaved changes?');
   }
 
-  ngOnInit(): void {
+  // the 5 buttons related to detail 3
+  // tslint:disable-next-line:typedef
+  deleteClick() {
+    // first check if changes saved else do not delete
+    if (this.popup()) {
+      if (this.aEventService.deleteById(this.editedAEvent.id) != null) {
+        this.aEventService.deleteById(this.editedAEvent.id);
+        this.editedAEventId = -1;
+      }
+    }
   }
 
-  setStatusType(status: string): void {
-    const enumStatus: AEventStatus = AEventStatus[status];
-    this.editedAevent.status = enumStatus;
+  // tslint:disable-next-line:typedef no-empty
+  saveClick(): void {
+    // tslint:disable-next-line:triple-equals
+    this.aEventService.save(this.editedAEvent);
   }
 
-  getStatusTypes(): Array<string> {
-    const keys: Array<string> = Object.keys(AEventStatus);
-    return keys;
+  // tslint:disable-next-line:typedef no-empty
+  clearClick() {
+    if (this.popup()) {
+      // @ts-ignore
+      const event = new AEvent();
+      event.id = this.editedAEvent.id;
+      this.editedAEvent = event;
+    }
   }
 
-  // tslint:disable-next-line:use-lifecycle-interface
-  ngOnChanges(): void {
-    this.editedAevent = Object.assign(AEventStatus, this.aEventsService.findById(this.editedAeventId));
+  // tslint:disable-next-line:no-empty typedef
+  resetClick() {
+    if (this.popup()) {
+      this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
+      this.editedAEventId = -1;
+    }
   }
 
-  saveChanges(): void {
+  // tslint:disable-next-line:no-empty typedef
+  cancelClick() {
+    if (this.popup()) {
+      this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
+      this.editedAEventId = -1;
+    }
   }
 
-  nothingHasChanged(): boolean {
-    return this.editedAevent.equals(
-      this.aEventsService.getaEvents()[this.editedAeventId]);
+  // tslint:disable-next-line:typedef
+  hasChanged() {
+    // tslint:disable-next-line:triple-equals
+    if (JSON.stringify(this.editedAEvent) == JSON.stringify(this.aEventService.findById(this.editedAEventId))) {
+      return true;
+    }
+    return false;
+  }
+
+  // only enable delete button if changes have been saved
+  // tslint:disable-next-line:typedef
+  hasSaved() {
+  }
+
+  resetSelectedAEvent(): void {
+    // @ts-ignore
+    this.editedAEvent = Object.assign(new AEvent(), this.aEventService.findById(this.editedAEventId));
   }
 }
