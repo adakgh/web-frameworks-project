@@ -5,29 +5,10 @@ export enum AEventStatus {
 }
 
 export class AEvent {
-  id: number;
-  title: string;
-  start: Date;
-  end: Date;
-  description: string;
-  status: AEventStatus;
-  isTicketed: Boolean;
-  participationFee: number;
-  maxParticipants: number;
 
-  public equals(e): boolean {
-    return this.title === e.title &&
-      this.description === e.description &&
-      this.start === e.start &&
-      this.end === e.end &&
-      this.status === e.status &&
-      this.maxParticipants === e.maxParticipants &&
-      this.participationFee === e.participationFee;
-  }
-
-  private static eventid = 20001;
-
-  constructor(id: number, title: string, start: Date, end: Date, description: string, status: AEventStatus, isTicketed: Boolean, participationFee: number, maxParticipants: number) {
+  constructor(id: number, title: string, start: Date, end: Date, description: string,
+              // tslint:disable-next-line:ban-types
+              status: AEventStatus, isTicketed: Boolean, participationFee: number, maxParticipants: number) {
     this.id = id;
     this.title = title;
     this.start = start;
@@ -38,6 +19,18 @@ export class AEvent {
     this.participationFee = participationFee;
     this.maxParticipants = maxParticipants;
   }
+
+  private static eventid = 20001;
+  id: number;
+  title: string;
+  start: Date;
+  end: Date;
+  description: string;
+  status: AEventStatus;
+  // tslint:disable-next-line:ban-types
+  isTicketed: Boolean;
+  participationFee: number;
+  maxParticipants: number;
 
   // @ts-ignore
   public static createRandomAEvent(): AEvent {
@@ -69,11 +62,12 @@ export class AEvent {
     return ai;
   }
 
-  private static randomDate(start: Date, end: Date) {
+  // tslint:disable-next-line:typedef
+  public static randomDate(start: Date, end: Date) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
   }
 
-  private static getRandomStatue(): AEventStatus {
+  public static getRandomStatue(): AEventStatus {
     const key = Math.floor(Math.random() * Math.floor(3) + 1);
     if (key === 1) {
       return AEventStatus.PUBLISHED;
@@ -86,5 +80,20 @@ export class AEvent {
     } else {
       return null;
     }
+  }
+
+  static copyTrue(event: AEvent): AEvent {
+    // @ts-ignore
+    return Object.assign(new AEvent(), event);
+  }
+
+  public equals(e): boolean {
+    return this.title === e.title &&
+      this.description === e.description &&
+      this.start === e.start &&
+      this.end === e.end &&
+      this.status === e.status &&
+      this.maxParticipants === e.maxParticipants &&
+      this.participationFee === e.participationFee;
   }
 }

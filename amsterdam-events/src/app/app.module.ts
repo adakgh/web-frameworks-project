@@ -10,8 +10,8 @@ import {Detail2Component} from './components/events/detail2/detail2.component';
 import {Overview1Component} from './components/events/overview1/overview1.component';
 import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
-import {HttpClientModule} from "@angular/common/http";
-import {Overview3Component} from './events/overview3/overview3.component';
+import {HttpClientModule} from '@angular/common/http';
+import {Overview3Component} from './components/events/overview3/overview3.component';
 import {Detail3Component} from './components/events/detail3/detail3.component';
 
 const appRoutes: Routes = [

@@ -17,6 +17,7 @@ export class Detail2Component implements OnInit {
   ngOnInit(): void {
   }
 
+  // tslint:disable-next-line:typedef
   removeEditedEvent() {
     this.removeEvent.emit(this.editedEvent);
   }

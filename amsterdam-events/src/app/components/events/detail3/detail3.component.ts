@@ -1,6 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AEvent, AEventStatus} from 'src/app/models/a-event';
 import {AEventsService} from 'src/app/services/a-events.service';
+import {Overview3Component} from '../overview3/overview3.component';
+import {Detail2Component} from '../detail2/detail2.component';
 
 @Component({
   selector: 'app-detail3',
@@ -8,16 +10,23 @@ import {AEventsService} from 'src/app/services/a-events.service';
   styleUrls: ['./detail3.component.css']
 })
 export class Detail3Component implements OnInit {
+  @Input() editedAeventId: number;
+  @Input() editedAevent: AEvent;
 
-  private editedAeventId: number;
-  public editedAevent: AEvent;
+  @Input() isEdited: boolean;
+  @Input() copyEditedEvent: AEvent;
+  @Input() copyEditedEventId: number;
+
+  @Output() editedEventIdChange = new EventEmitter<number>();
+  @Output() checkEditedEventChange = new EventEmitter<boolean>();
 
   @Input()
   set editedAEventId(id: number) {
     this.editedAeventId = id;
-    this.editedAevent = this.aEventsService.aEvents[id];
+    this.editedAevent = this.aEventsService.getaEvents()[id];
   }
 
+  // tslint:disable-next-line:typedef
   get editedAEventId() {
     return this.editedAeventId;
   }
@@ -26,17 +35,29 @@ export class Detail3Component implements OnInit {
     console.log('it\'s working');
   }
 
+  // tslint:disable-next-line:typedef
   onSetTO(aEvent: AEvent) {
     this.aEventsService.update(this.editedAeventId, aEvent);
   }
 
+  // tslint:disable-next-line:typedef
+  deleteClick() {
+    if (this.popup) {
+      this.aEventsService.remove(this.editedAeventId);
+      this.isEdited = null;
+    }
+  }
+
+  // tslint:disable-next-line:typedef
   saveClick() {
     this.aEventsService.update(this.editedAeventId, this.editedAevent);
   }
 
+  // tslint:disable-next-line:typedef
   clearClick() {
     if (this.popup()) {
       this.editedAevent.title = null;
+      this.editedAevent.description = null;
       this.editedAevent.participationFee = null;
       this.editedAevent.end = null;
       this.editedAevent.status = null;
@@ -45,17 +66,19 @@ export class Detail3Component implements OnInit {
     }
   }
 
+  // tslint:disable-next-line:typedef
   resetClick() {
     if (this.popup()) {
-      this.editedAevent.title = this.aEventsService.aEvents[this.editedAeventId].title;
-      this.editedAevent.start = this.aEventsService.aEvents[this.editedAeventId].start;
-      this.editedAevent.end = this.aEventsService.aEvents[this.editedAeventId].end;
-      this.editedAevent.status = this.aEventsService.aEvents[this.editedAeventId].status;
-      this.editedAevent.maxParticipants = this.aEventsService.aEvents[this.editedAeventId].maxParticipants;
-      this.editedAevent.participationFee = this.aEventsService.aEvents[this.editedAeventId].participationFee;
+      this.editedAevent.title = this.aEventsService.getaEvents()[this.editedAeventId].title;
+      this.editedAevent.start = this.aEventsService.getaEvents()[this.editedAeventId].start;
+      this.editedAevent.end = this.aEventsService.getaEvents()[this.editedAeventId].end;
+      this.editedAevent.status = this.aEventsService.getaEvents()[this.editedAeventId].status;
+      this.editedAevent.maxParticipants = this.aEventsService.getaEvents()[this.editedAeventId].maxParticipants;
+      this.editedAevent.participationFee = this.aEventsService.getaEvents()[this.editedAeventId].participationFee;
     }
   }
 
+  // tslint:disable-next-line:typedef
   cancelClick() {
     if (this.popup()) {
       this.editedAevent = null;
@@ -63,12 +86,9 @@ export class Detail3Component implements OnInit {
     }
   }
 
-  popup(): boolean {
-    if (this.nothingHasChanged()) {
-      return true;
-    } else {
-      return confirm('are you sure to discard changes!');
-    }
+  // tslint:disable-next-line:typedef
+  popup() {
+    return confirm('are you sure to discard unsaved changes!');
   }
 
   ngOnInit(): void {
@@ -84,6 +104,7 @@ export class Detail3Component implements OnInit {
     return keys;
   }
 
+  // tslint:disable-next-line:use-lifecycle-interface
   ngOnChanges(): void {
     this.editedAevent = Object.assign(AEventStatus, this.aEventsService.findById(this.editedAeventId));
   }
@@ -93,6 +114,6 @@ export class Detail3Component implements OnInit {
 
   nothingHasChanged(): boolean {
     return this.editedAevent.equals(
-      this.aEventsService.aEvents[this.editedAeventId]);
+      this.aEventsService.getaEvents()[this.editedAeventId]);
   }
 }

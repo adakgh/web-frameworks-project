@@ -16,11 +16,13 @@ export class Overview2Component implements OnInit {
   clickedRow: any;
 
   constructor() {
-    this.clickedRow = function (index) {
+    // tslint:disable-next-line:typedef
+    this.clickedRow = function(index) {
       this.highlightRow = index;
-    }
+    };
   }
 
+  // tslint:disable-next-line:typedef
   isSelected(event) {
     this.selectedAEvent = event;
 
@@ -50,6 +52,7 @@ export class Overview2Component implements OnInit {
     this.aEvents.push(AEvent.createRandomAEvent());
   }
 
+  // tslint:disable-next-line:typedef
   deleteClick(event: AEvent) {
     const index = this.aEvents.indexOf(event);
 
