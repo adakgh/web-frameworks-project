@@ -3,11 +3,11 @@ import {AEvent, AEventStatus} from 'src/app/models/a-event';
 import {AEventsService} from 'src/app/services/a-events.service';
 
 @Component({
-  selector: 'app-detail3',
-  templateUrl: './detail3.component.html',
-  styleUrls: ['./detail3.component.css']
+  selector: 'app-detail4',
+  templateUrl: './detail4.component.html',
+  styleUrls: ['./detail4.component.css']
 })
-export class Detail3Component implements OnInit {
+export class Detail4Component implements OnInit {
   @Input()
   get editedAEventId(): number {
     return this._editedAEventId;

@@ -1,0 +1,52 @@
+<div class="validation" *ngIf="editedAEventId !== -1; else text">
+  <table class="tabelSelect">
+    <tr>
+      <th>Selected Event details (id = {{editedAEvent.id}})</th>
+    </tr>
+
+    <tr>
+      <td>Title</td>
+      <td><input type="text" [(ngModel)]="editedAEvent.title"></td>
+    <tr>
+
+    <tr>
+      <td>Description</td>
+      <td><input type="text" [(ngModel)]="editedAEvent.description"></td>
+    </tr>
+
+    <tr>
+      <td>Status</td>
+      <td>
+        <select name="status" class="custom-select" [(ngModel)]="editedAEvent.status">
+          <option *ngFor="let status of getEventStatus()" [ngValue]="status">{{status}}</option>
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td> Is Ticketed</td>
+      <td><input type="checkbox" [(ngModel)]="editedAEvent.isTicketed"></td>
+    </tr>
+
+    <tr>
+      <td> Participation fee</td>
+      <td><input type="text" [(ngModel)]="editedAEvent.participationFee"></td>
+    </tr>
+
+    <tr>
+      <td>Maximum participants</td>
+      <td><input type="number" [(ngModel)]="editedAEvent.maxParticipants"></td>
+    </tr>
+
+  </table>
+  <br>
+  <button (click)="deleteClick()" [disabled]="hasChanged()" type="btn">Delete</button>
+  <button (click)="saveClick()" [disabled]="hasChanged()" type="btn">Save</button>
+  <button (click)="clearClick()" type="btn">Clear</button>
+  <button (click)="resetClick()" [disabled]="hasChanged()" type="btn">Reset</button>
+  <button (click)="cancelClick()" type="btn">Cancel</button>
+</div>
+
+<ng-template #text>
+  Select an event at the left
+</ng-template>

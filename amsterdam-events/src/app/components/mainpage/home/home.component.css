@@ -7,3 +7,7 @@ img {
 .center{
   max-width: 80%;
 }
+
+body {
+  width: 100%;
+}
