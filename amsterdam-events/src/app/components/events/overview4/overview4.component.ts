@@ -21,9 +21,6 @@ export class Overview4Component implements OnInit {
     this.selectedAEventId = aEvent.id;
   }
 
-  ngOnInit(): void {
-  }
-
   handelClick(): void {
     this.addRandomAEvent();
   }
@@ -35,5 +32,8 @@ export class Overview4Component implements OnInit {
   // tslint:disable-next-line:typedef
   onSelect(eId: number) {
     this.router.navigate([eId], {relativeTo: this.activatedRoute});
+  }
+
+  ngOnInit(): void {
   }
 }

@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AEvent, AEventStatus} from 'src/app/models/a-event';
 import {AEventsService} from 'src/app/services/a-events.service';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-detail4',
@@ -27,13 +29,34 @@ export class Detail4Component implements OnInit {
   @Input() editedAEvent: AEvent;
   uneditedAEvent: AEvent;
 
-  constructor(private aEventService: AEventsService) {
+  constructor(private aEventService: AEventsService, private router: Router,
+              private activatedRoute: ActivatedRoute) {
   }
 
-  ngOnInit(): void {
+  childParamSubscription: Subscription = null;
+
+  // tslint:disable-next-line:typedef
+  ngOnInit() {
     this.aEventService.update(this.editedAEventId, this.editedAEvent);
     this.resetSelectedAEvent();
+
+    this.childParamSubscription =
+      this.activatedRoute.queryParams
+        .subscribe((params: Params) => {
+            console.log('detail setup id=' + params.id);
+            // @ts-ignore
+            this.editedAEvent(params.id || -1);
+          }
+        );
   }
+
+  // tslint:disable-next-line:use-lifecycle-interface
+  ngOnDestroy(): void {
+    // tslint:disable-next-line:no-unused-expression
+    this.childParamSubscription &&
+      this.childParamSubscription.unsubscribe();
+  }
+
 
   // tslint:disable-next-line:typedef
   getEventStatus(): Array<string> {
