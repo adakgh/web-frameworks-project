@@ -8,13 +8,17 @@
       </tr>
 
       <tr *ngFor="let aevent of aevents" [class.active]="aevent.id == selectedAEventId">
-        <td (click)="selectedAEventId = aevent.id">{{aevent.title}}</td>
+        <td (click)="onSelect(aevent.id)">{{aevent.title}}</td>
       </tr>
 
     </table>
     <button (click)="handelClick()" class="btnAdd mt-4 mb-2">Add Event</button>
   </div>
+
   <div class="col-md-8">
+
     <router-outlet></router-outlet>
+
+    <ng-template #text><p class="mt-3">Select an event at the left</ng-template>
   </div>
 </div>

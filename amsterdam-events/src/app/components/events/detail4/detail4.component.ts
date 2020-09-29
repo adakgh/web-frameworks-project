@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AEvent, AEventStatus} from 'src/app/models/a-event';
 import {AEventsService} from 'src/app/services/a-events.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -9,13 +9,12 @@ import {Subscription} from 'rxjs';
   templateUrl: './detail4.component.html',
   styleUrls: ['./detail4.component.css']
 })
-export class Detail4Component implements OnInit {
+export class Detail4Component implements OnInit, OnDestroy {
   @Input()
   get editedAEventId(): number {
     return this._editedAEventId;
   }
 
-  // tslint:disable-next-line:typedef
   set editedAEventId(id: number) {
     this._editedAEventId = id;
 
@@ -25,12 +24,11 @@ export class Detail4Component implements OnInit {
 
   // tslint:disable-next-line:variable-name
   @Input() _editedAEventId = -1;
-
   @Input() editedAEvent: AEvent;
   uneditedAEvent: AEvent;
 
-  constructor(private aEventService: AEventsService, private router: Router,
-              private activatedRoute: ActivatedRoute) {
+  constructor(public aEventService: AEventsService, public router: Router,
+              public activatedRoute: ActivatedRoute) {
   }
 
   childParamSubscription: Subscription = null;
@@ -44,8 +42,8 @@ export class Detail4Component implements OnInit {
       this.activatedRoute.queryParams
         .subscribe((params: Params) => {
             console.log('detail setup id=' + params.id);
-            // @ts-ignore
-            this.editedAEvent(params.id || -1);
+            // retrieve the event to be edited from the server
+            this.editedAEventId = (params.id || -1);
           }
         );
   }
@@ -54,9 +52,8 @@ export class Detail4Component implements OnInit {
   ngOnDestroy(): void {
     // tslint:disable-next-line:no-unused-expression
     this.childParamSubscription &&
-      this.childParamSubscription.unsubscribe();
+    this.childParamSubscription.unsubscribe();
   }
-
 
   // tslint:disable-next-line:typedef
   getEventStatus(): Array<string> {
@@ -77,7 +74,7 @@ export class Detail4Component implements OnInit {
     if (this.popup()) {
       if (this.aEventService.deleteById(this.editedAEvent.id) != null) {
         this.aEventService.deleteById(this.editedAEvent.id);
-        this.editedAEventId = -1;
+        this.router.navigate(['..'], {relativeTo: this.activatedRoute});
       }
     }
   }
@@ -102,7 +99,7 @@ export class Detail4Component implements OnInit {
   resetClick() {
     if (this.popup()) {
       this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
-      this.editedAEventId = -1;
+      this.router.navigate(['..'], {relativeTo: this.activatedRoute});
     }
   }
 
@@ -110,7 +107,7 @@ export class Detail4Component implements OnInit {
   cancelClick() {
     if (this.popup()) {
       this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
-      this.editedAEventId = -1;
+      this.router.navigate(['..'], {relativeTo: this.activatedRoute});
     }
   }
 
@@ -123,7 +120,7 @@ export class Detail4Component implements OnInit {
     return false;
   }
 
-  // only enable delete button if changes have been saved
+  // TODO: only enable delete button if changes have been saved
   // tslint:disable-next-line:typedef
   hasSaved() {
   }

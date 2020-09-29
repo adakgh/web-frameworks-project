@@ -36,12 +36,12 @@ const routes: Routes = [
       {path: 'overview1', component: Overview1Component},
       {
         path: 'overview2', component: Overview2Component, children: [
-          {path: ':eId', component: Detail2Component}
+          {path: ':id', component: Detail2Component}
         ]
       },
       {
         path: 'overview3', component: Overview3Component, children: [
-          {path: ':eId', component: Detail3Component}
+          {path: ':id', component: Detail3Component}
         ]
       },
       {

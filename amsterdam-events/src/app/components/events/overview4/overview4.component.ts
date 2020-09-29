@@ -12,7 +12,8 @@ export class Overview4Component implements OnInit {
   selectedAEventId = -1;
   aevents: AEvent[];
 
-  constructor(public aEventsService: AEventsService, private router: Router,
+  constructor(public aEventsService: AEventsService,
+              private router: Router,
               private activatedRoute: ActivatedRoute) {
     this.aevents = aEventsService.findAll();
   }
@@ -31,7 +32,10 @@ export class Overview4Component implements OnInit {
 
   // tslint:disable-next-line:typedef
   onSelect(eId: number) {
-    this.router.navigate([eId], {relativeTo: this.activatedRoute});
+    // this.router.navigate([eId], {relativeTo: this.activatedRoute});
+
+    this.router.navigate(['eId'], {relativeTo: this.activatedRoute, queryParams: {id: eId}});
+    console.log(eId);
   }
 
   ngOnInit(): void {

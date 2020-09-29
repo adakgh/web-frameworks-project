@@ -3,7 +3,18 @@
     <div class="navbar-collapse" id="navbar-primary-collapse">
       <ul class="nav navbar">
         <li><a [routerLink]="['']">Home</a></li>
-        <li><a [routerLink]="['events/overview1']">My Events</a></li>
+<!--        <li><a [routerLink]="['events/overview1']">My Events</a></li>-->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My
+            Events<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a [routerLink]="['events/overview1']">All events list</a></li>
+            <li><a [routerLink]="['component']">M/D (component store)</a></li>
+            <li><a [routerLink]="['service']">M/D (from service)</a></li>
+            <li><a [routerLink]="['routerparams']">M/D (routerparams)</a></li>
+          </ul>
+        </li>
+
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My
             Registrations<span class="caret"></span></a>
@@ -12,6 +23,7 @@
             <li><a [routerLink]="['history']">History</a></li>
           </ul>
         </li>
+
         <li><a [routerLink]="['account']">My Account</a></li>
         <li><a [routerLink]="['signup']">Sign up</a></li>
         <li><a [routerLink]="['login']">Log in</a></li>
