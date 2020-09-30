@@ -11,7 +11,6 @@ export class Overview3Component implements OnInit {
   selectedAEventId = -1;
   aevents: AEvent[];
 
-
   constructor(public aEventsService: AEventsService) {
     this.aevents = aEventsService.findAll();
   }

@@ -8,7 +8,7 @@
       </tr>
 
       <tr *ngFor="let aevent of aevents" [class.active]="aevent.id == selectedAEventId">
-        <td (click)="onSelect(aevent.id)">{{aevent.title}}</td>
+        <td (click)="onSelect(aevent.id); selectedAEventId = aevent.id">{{aevent.title}}</td>
       </tr>
 
     </table>

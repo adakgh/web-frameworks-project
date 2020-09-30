@@ -27,8 +27,8 @@ export class Detail4Component implements OnInit, OnDestroy {
   @Input() editedAEvent: AEvent;
   uneditedAEvent: AEvent;
 
-  constructor(public aEventService: AEventsService, public router: Router,
-              public activatedRoute: ActivatedRoute) {
+  constructor(private aEventService: AEventsService, private router: Router,
+              private activatedRoute: ActivatedRoute) {
   }
 
   childParamSubscription: Subscription = null;

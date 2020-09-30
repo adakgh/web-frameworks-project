@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./overview4.component.css']
 })
 export class Overview4Component implements OnInit {
-  selectedAEventId = -1;
+  selectedAEventId: number;
   aevents: AEvent[];
 
   constructor(public aEventsService: AEventsService,
