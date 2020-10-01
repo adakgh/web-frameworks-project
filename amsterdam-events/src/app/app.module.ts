@@ -46,13 +46,14 @@ const routes: Routes = [
       },
       {
         path: 'overview4', component: Overview4Component, children: [
+          {path: '', pathMatch: 'full', redirectTo: '/events/overview4/-1'},
           {path: ':id', component: Detail4Component}
         ]
       }
     ]
   },
   {path: '**', component: ErrorComponent}
-];
+  ];
 
 @NgModule({
   declarations: [

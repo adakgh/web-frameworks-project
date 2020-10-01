@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {AEvent, AEventStatus} from 'src/app/models/a-event';
 import {AEventsService} from 'src/app/services/a-events.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -10,7 +10,11 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./detail4.component.css']
 })
 export class Detail4Component implements OnInit, OnDestroy {
-  @Input()
+  // tslint:disable-next-line:variable-name
+  _editedAEventId = -1;
+  editedAEvent: AEvent;
+  uneditedAEvent: AEvent;
+
   get editedAEventId(): number {
     return this._editedAEventId;
   }
@@ -22,24 +26,15 @@ export class Detail4Component implements OnInit, OnDestroy {
     this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
   }
 
-  // tslint:disable-next-line:variable-name
-  @Input() _editedAEventId = -1;
-  @Input() editedAEvent: AEvent;
-  uneditedAEvent: AEvent;
-
   constructor(private aEventService: AEventsService, private router: Router,
               private activatedRoute: ActivatedRoute) {
   }
 
   childParamSubscription: Subscription = null;
 
-  // tslint:disable-next-line:typedef
-  ngOnInit() {
-    this.aEventService.update(this.editedAEventId, this.editedAEvent);
-    this.resetSelectedAEvent();
-
+  ngOnInit(): void {
     this.childParamSubscription =
-      this.activatedRoute.queryParams
+      this.activatedRoute.params
         .subscribe((params: Params) => {
             console.log('detail setup id=' + params.id);
             // retrieve the event to be edited from the server
@@ -62,8 +57,6 @@ export class Detail4Component implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:typedef
   popup() {
-    // tslint:disable-next-line:triple-equals no-empty
-    // @ts-ignore
     return confirm('are you sure to discard unsaved changes?');
   }
 
@@ -72,10 +65,8 @@ export class Detail4Component implements OnInit, OnDestroy {
   deleteClick() {
     // first check if changes saved else do not delete
     if (this.popup()) {
-      if (this.aEventService.deleteById(this.editedAEvent.id) != null) {
-        this.aEventService.deleteById(this.editedAEvent.id);
-        this.router.navigate(['..'], {relativeTo: this.activatedRoute});
-      }
+      this.aEventService.deleteById(this.editedAEvent.id);
+      this.router.navigate(['..'], {relativeTo: this.activatedRoute});
     }
   }
 

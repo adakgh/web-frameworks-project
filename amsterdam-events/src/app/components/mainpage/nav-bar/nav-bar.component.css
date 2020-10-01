@@ -19,6 +19,7 @@
 #navbar-primary.navbar-default .navbar > li:hover {
   background-color: #cacaca;
   text-decoration: none;
+  cursor: pointer;
 }
 
 #navbar-primary.navbar-default .navbar > li > a {
@@ -31,7 +32,6 @@
 #navbar-primary.navbar-default .navbar .dropdown-menu {
   background-color: #f2efeb;
   text-align: center;
-  left: auto;
   border: #cacaca solid 1px;
   border-radius: 0px;
 }

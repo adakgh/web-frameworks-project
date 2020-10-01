@@ -7,8 +7,9 @@
         <th>Event title</th>
       </tr>
 
-      <tr *ngFor="let aevent of aevents" [class.active]="aevent.id == selectedAEventId">
-        <td (click)="onSelect(aevent.id); selectedAEventId = aevent.id">{{aevent.title}}</td>
+      <tr *ngFor="let aevent of aevents" (click)="selectedAEventId = aevent.id; onSelect(aevent.id)"
+          [class.active]="aevent.id == selectedAEventId">
+        <td>{{aevent.title}}</td>
       </tr>
 
     </table>
@@ -16,9 +17,6 @@
   </div>
 
   <div class="col-md-8">
-
     <router-outlet></router-outlet>
-
-    <ng-template #text><p class="mt-3">Select an event at the left</ng-template>
   </div>
 </div>
