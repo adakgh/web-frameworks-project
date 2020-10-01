@@ -25,6 +25,7 @@ export class Overview4Component implements OnInit {
 
   handelClick(): void {
     this.addRandomAEvent();
+   ;
   }
 
   addRandomAEvent(): void {
