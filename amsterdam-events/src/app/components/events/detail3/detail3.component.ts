@@ -18,7 +18,8 @@ export class Detail3Component implements OnInit {
     this._editedAEventId = id;
 
     // tslint:disable-next-line:max-line-length
-    this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
+    this.editedAEvent = Object.assign({},
+      this.aEventService.findById(this.editedAEventId));
   }
 
   // tslint:disable-next-line:variable-name
@@ -78,7 +79,8 @@ export class Detail3Component implements OnInit {
   // tslint:disable-next-line:no-empty typedef
   resetClick() {
     if (this.popup()) {
-      this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
+      this.editedAEvent = Object.assign({},
+        this.aEventService.findById(this.editedAEventId));
       this.editedAEventId = -1;
     }
   }
@@ -86,7 +88,8 @@ export class Detail3Component implements OnInit {
   // tslint:disable-next-line:no-empty typedef
   cancelClick() {
     if (this.popup()) {
-      this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
+      this.editedAEvent = Object.assign({},
+        this.aEventService.findById(this.editedAEventId));
       this.editedAEventId = -1;
     }
   }
@@ -94,7 +97,8 @@ export class Detail3Component implements OnInit {
   // tslint:disable-next-line:typedef
   hasChanged() {
     // tslint:disable-next-line:triple-equals
-    if (JSON.stringify(this.editedAEvent) == JSON.stringify(this.aEventService.findById(this.editedAEventId))) {
+    if (JSON.stringify(this.editedAEvent) == JSON.stringify(
+      this.aEventService.findById(this.editedAEventId))) {
       return true;
     }
     return false;
@@ -107,6 +111,7 @@ export class Detail3Component implements OnInit {
 
   resetSelectedAEvent(): void {
     // @ts-ignore
-    this.editedAEvent = Object.assign(new AEvent(), this.aEventService.findById(this.editedAEventId));
+    this.editedAEvent = Object.assign(new AEvent(),
+      this.aEventService.findById(this.editedAEventId));
   }
 }

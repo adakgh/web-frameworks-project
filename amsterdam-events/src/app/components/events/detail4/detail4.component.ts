@@ -114,6 +114,8 @@ export class Detail4Component implements OnInit, OnDestroy {
   // TODO: only enable delete button if changes have been saved
   // tslint:disable-next-line:typedef
   hasSaved() {
+    console.log('Id = ' + this.editedAEventId + 'has changed with scucces');
+    this.aEventService.update(this.editedAEventId, this.editedAEvent);
   }
 
   resetSelectedAEvent(): void {
