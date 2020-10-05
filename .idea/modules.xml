@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/team12a.iml" filepath="$PROJECT_DIR$/.idea/team12a.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aeserver/aeserver.iml" filepath="$PROJECT_DIR$/aeserver/aeserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/team12.iml" filepath="$PROJECT_DIR$/.idea/team12.iml" />
     </modules>
   </component>
 </project>

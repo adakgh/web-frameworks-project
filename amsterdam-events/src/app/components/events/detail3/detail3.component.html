@@ -40,7 +40,7 @@
 
   </table>
   <br>
-  <button (click)="deleteClick()" [disabled]="hasChanged()" type="btn">Delete</button>
+  <button (click)="deleteClick()" [disabled]="savedBeforeDelete" type="btn">Delete</button>
   <button (click)="saveClick()" [disabled]="hasChanged()" type="btn">Save</button>
   <button (click)="clearClick()" type="btn">Clear</button>
   <button (click)="resetClick()" [disabled]="hasChanged()" type="btn">Reset</button>

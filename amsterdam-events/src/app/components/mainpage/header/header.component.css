@@ -16,8 +16,7 @@ header {
 .sub-title {
   position: relative;
   font-style: italic;
-  z-index: 2;
-  left: 1232px;
+  left: 1215px;
 }
 
 #logo-left {
@@ -33,7 +32,7 @@ header {
 #time-left {
   position: absolute;
   z-index: 2;
-  /* float: right; */
   left: 75px;
   text-align: left;
+  top: 70px;
 }

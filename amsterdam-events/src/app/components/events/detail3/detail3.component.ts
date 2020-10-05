@@ -27,6 +27,7 @@ export class Detail3Component implements OnInit {
 
   @Input() editedAEvent: AEvent;
   uneditedAEvent: AEvent;
+  savedBeforeDelete = true;
 
   constructor(private aEventService: AEventsService) {
   }
@@ -53,17 +54,18 @@ export class Detail3Component implements OnInit {
   deleteClick() {
     // first check if changes saved else do not delete
     if (this.popup()) {
-      if (this.aEventService.deleteById(this.editedAEvent.id) != null) {
-        this.aEventService.deleteById(this.editedAEvent.id);
-        this.editedAEventId = -1;
-      }
+      this.aEventService.deleteById(this.editedAEvent.id);
+      this.editedAEventId = -1;
     }
+    this.savedBeforeDelete = true;
   }
 
   // tslint:disable-next-line:typedef no-empty
   saveClick(): void {
     // tslint:disable-next-line:triple-equals
     this.aEventService.save(this.editedAEvent);
+    this.savedBeforeDelete = false;
+    this.resetSelectedAEvent();
   }
 
   // tslint:disable-next-line:typedef no-empty
@@ -79,8 +81,7 @@ export class Detail3Component implements OnInit {
   // tslint:disable-next-line:no-empty typedef
   resetClick() {
     if (this.popup()) {
-      this.editedAEvent = Object.assign({},
-        this.aEventService.findById(this.editedAEventId));
+      this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
       this.editedAEventId = -1;
     }
   }
@@ -88,8 +89,7 @@ export class Detail3Component implements OnInit {
   // tslint:disable-next-line:no-empty typedef
   cancelClick() {
     if (this.popup()) {
-      this.editedAEvent = Object.assign({},
-        this.aEventService.findById(this.editedAEventId));
+      this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
       this.editedAEventId = -1;
     }
   }
@@ -97,10 +97,10 @@ export class Detail3Component implements OnInit {
   // tslint:disable-next-line:typedef
   hasChanged() {
     // tslint:disable-next-line:triple-equals
-    if (JSON.stringify(this.editedAEvent) == JSON.stringify(
-      this.aEventService.findById(this.editedAEventId))) {
+    if (JSON.stringify(this.editedAEvent) == JSON.stringify(this.aEventService.findById(this.editedAEventId))) {
       return true;
     }
+    this.savedBeforeDelete = true;
     return false;
   }
 
@@ -111,7 +111,6 @@ export class Detail3Component implements OnInit {
 
   resetSelectedAEvent(): void {
     // @ts-ignore
-    this.editedAEvent = Object.assign(new AEvent(),
-      this.aEventService.findById(this.editedAEventId));
+    this.editedAEvent = Object.assign(new AEvent(), this.aEventService.findById(this.editedAEventId));
   }
 }
