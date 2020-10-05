@@ -8,11 +8,9 @@ import java.util.List;
 
 @Repository
 public class AEventsRepositoryMock implements AEventsRepository {
-    private List<AEvent> aEvents;
+    private List<AEvent> aEvents = new ArrayList<>();
 
     public AEventsRepositoryMock() {
-        this.aEvents = new ArrayList<>();
-
         for (int i = 0; i < 9; i++) {
             this.aEvents.add(AEvent.createRandomAEvent());
         }

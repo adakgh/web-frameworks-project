@@ -1,7 +1,7 @@
 package app.rest;
 
 import app.models.AEvent;
-import app.repositories.AEventsRepositoryMock;
+import app.repositories.AEventsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/aevents")
 public class AEventsController {
     @Autowired
-    private AEventsRepositoryMock aEventsRepository = new AEventsRepositoryMock();
+    private AEventsRepository aEventsRepository;
 
     @GetMapping("")
     public List<AEvent> getAllEvents() {

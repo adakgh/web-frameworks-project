@@ -10,7 +10,7 @@ public class AEvent {
     public Date end;
     public String description;
     public AEventStatus status;
-    public boolean isTicketed;
+    private boolean isTicketed;
     public double participationFee;
     public int maxParticipants;
 
