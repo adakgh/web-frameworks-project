@@ -1,20 +1,22 @@
-package app.models;
+package nl.team12.amsterdamevents.aeserver.app.models;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class AEvent {
     private static int eventid = 20001;
     public int id;
     public String title;
-    public Date start;
-    public Date end;
+    public LocalDate start;
+    public LocalDate end;
     public String description;
     public AEventStatus status;
-    private boolean isTicketed;
     public double participationFee;
     public int maxParticipants;
+    private boolean isTicketed;
 
-    public AEvent(int id, String title, Date start, Date end, String description, AEventStatus status, boolean isTicketed, double participationFee, int maxParticipants) {
+    public AEvent(int id, String title, LocalDate start, LocalDate end, String description, AEventStatus status, boolean isTicketed, double participationFee, int maxParticipants) {
         this.id = id;
         this.title = title;
         this.start = start;
@@ -35,8 +37,8 @@ public class AEvent {
         aEvent.id = eventid++;
         aEvent.title = "The Fantastic Event-" + aEvent.id;
 
-        aEvent.start = new Date();
-        aEvent.end = new Date();
+        aEvent.start = randomDate(LocalDate.of(2020, Month.OCTOBER, 8), LocalDate.of(2020, Month.OCTOBER, 18));
+        aEvent.end = randomDate(aEvent.start, LocalDate.of(2021, Month.FEBRUARY, 1));
 
         aEvent.description = "a fantastic description";
 
@@ -56,10 +58,15 @@ public class AEvent {
         return aEvent;
     }
 
-    public enum AEventStatus {
-        DRAFT, PUBLISHED, CANCELED;
-    }
+    public static LocalDate randomDate(LocalDate start, LocalDate end) {
+        long startEpochDay = start.toEpochDay();
+        long endEpochDay = end.toEpochDay();
+        long randomDay = ThreadLocalRandom
+                .current()
+                .nextLong(startEpochDay, endEpochDay);
 
+        return LocalDate.ofEpochDay(randomDay);
+    }
 
     public static AEventStatus getRandomStatus() {
         var key = Math.floor(Math.random() * Math.floor(3) + 1);
@@ -99,11 +106,11 @@ public class AEvent {
         return title;
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
@@ -125,5 +132,19 @@ public class AEvent {
 
     public int getMaxParticipants() {
         return maxParticipants;
+    }
+
+    public boolean equals(AEvent e) {
+        return this.title.equals(e.title) &&
+                this.description.equals(e.description) &&
+                this.start == e.start &&
+                this.end == e.end &&
+                this.status == e.status &&
+                this.maxParticipants == e.maxParticipants &&
+                this.participationFee == e.participationFee;
+    }
+
+    public enum AEventStatus {
+        DRAFT, PUBLISHED, CANCELED;
     }
 }

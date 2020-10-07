@@ -1,6 +1,6 @@
-package app.repositories;
+package nl.team12.amsterdamevents.aeserver.app.repositories;
 
-import app.models.AEvent;
+import nl.team12.amsterdamevents.aeserver.app.models.AEvent;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

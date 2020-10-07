@@ -1,4 +1,4 @@
-package app;
+package nl.team12.amsterdamevents.aeserver.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,7 +8,6 @@ public class AeserverApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AeserverApplication.class, args);
-		System.out.println("initialize...");
 	}
 
 }
