@@ -7,9 +7,9 @@ import java.util.List;
 public interface AEventsRepository {
     List<AEvent> findAll();
 
-    AEvent findById(int id);
+    AEvent findById(long id);
 
     AEvent save(AEvent aEvent);
 
-    void deleteById(int id);
+    boolean deleteById(long id);
 }

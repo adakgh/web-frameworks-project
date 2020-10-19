@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_13" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/aeserver/src/main/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/amsterdam-events/dist" />
       <excludeFolder url="file://$MODULE_DIR$/amsterdam-events/tmp" />
     </content>
