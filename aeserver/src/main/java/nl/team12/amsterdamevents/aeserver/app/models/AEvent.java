@@ -1,12 +1,15 @@
 package nl.team12.amsterdamevents.aeserver.app.models;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import nl.team12.amsterdamevents.aeserver.app.views.AEventView;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AEvent {
     private static int eventid = 20001;
-    public int id;
+    public long id;
     public String title;
     public LocalDate start;
     public LocalDate end;
@@ -16,7 +19,7 @@ public class AEvent {
     public int maxParticipants;
     private boolean isTicketed;
 
-    public AEvent(int id, String title, LocalDate start, LocalDate end, String description, AEventStatus status, boolean isTicketed, double participationFee, int maxParticipants) {
+    public AEvent(long id, String title, LocalDate start, LocalDate end, String description, AEventStatus status, boolean isTicketed, double participationFee, int maxParticipants) {
         this.id = id;
         this.title = title;
         this.start = start;
@@ -98,40 +101,85 @@ public class AEvent {
                 '}';
     }
 
-    public int getId() {
+    public static int getEventid() {
+        return eventid;
+    }
+
+    public static void setEventid(int eventid) {
+        AEvent.eventid = eventid;
+    }
+
+    @JsonView(AEventView.SummaryView.class)
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public LocalDate getStart() {
         return start;
+    }
+
+    public void setStart(LocalDate start) {
+        this.start = start;
     }
 
     public LocalDate getEnd() {
         return end;
     }
 
+    public void setEnd(LocalDate end) {
+        this.end = end;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public AEventStatus getStatus() {
         return status;
     }
 
-    public boolean isTicketed() {
-        return isTicketed;
+    public void setStatus(AEventStatus status) {
+        this.status = status;
     }
 
     public double getParticipationFee() {
         return participationFee;
     }
 
+    public void setParticipationFee(double participationFee) {
+        this.participationFee = participationFee;
+    }
+
     public int getMaxParticipants() {
         return maxParticipants;
+    }
+
+    public void setMaxParticipants(int maxParticipants) {
+        this.maxParticipants = maxParticipants;
+    }
+
+    public boolean isTicketed() {
+        return isTicketed;
+    }
+
+    public void setTicketed(boolean ticketed) {
+        isTicketed = ticketed;
     }
 
     public boolean equals(AEvent e) {
