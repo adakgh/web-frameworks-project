@@ -1,9 +1,8 @@
 package nl.team12.amsterdamevents.aeserver.app.repositories;
 
+import nl.team12.amsterdamevents.aeserver.app.exceptions.ResourceNotFoundException;
 import nl.team12.amsterdamevents.aeserver.app.models.AEvent;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ public class AEventsRepositoryMock implements AEventsRepository {
                     })
                     .findFirst().getAsInt();
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AEvent with this index is not found!");
+            throw new ResourceNotFoundException("AEvent id=" + id + " not found");
         }
     }
 
