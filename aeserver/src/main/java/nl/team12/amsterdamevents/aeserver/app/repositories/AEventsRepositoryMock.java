@@ -22,16 +22,10 @@ public class AEventsRepositoryMock implements AEventsRepository {
         }
     }
 
-    // creating a new ids starting from 20008
+    // generating new ids starting from id 20008
     private long getNextUniqueId() {
-        return Long.parseLong(String.format("%d", startId++));
-    }
-
-    // CRUD operations
-    // retrieving the list of all a-events
-    @Override
-    public List<AEvent> findAll() {
-        return this.aEvents;
+        this.startId++;
+        return this.startId;
     }
 
     // retrieving the next AEvent by id
@@ -46,8 +40,15 @@ public class AEventsRepositoryMock implements AEventsRepository {
                     })
                     .findFirst().getAsInt();
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found!");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "AEvent with this index is not found!");
         }
+    }
+
+    // CRUD operations
+    // retrieving the list of all a-events
+    @Override
+    public List<AEvent> findAll() {
+        return this.aEvents;
     }
 
     // retrieving one a-event, identified by a given id

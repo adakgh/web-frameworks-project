@@ -14,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
@@ -75,7 +74,7 @@ public class AEventsController {
     // works without @RequestBody?
     @PutMapping("/aevents/{id}")
     public ResponseEntity<AEvent> updateAEvent(@PathVariable Long id, AEvent aEvent) {
-        if (Objects.equals(id, aEvent.getId())) {
+        if (id.equals(aEvent.getId())) {
             AEvent savedAEvent = aEventsRepository.save(aEvent);
             return ResponseEntity.accepted().body(savedAEvent);
         }
@@ -85,8 +84,8 @@ public class AEventsController {
     // DELETE mapping which uses the id to remove the identified aEvent from the repository
     // Exception if request consists of a non-existing id
     @DeleteMapping("/aevents/{id}")
-    public ResponseEntity<URI> deleteAEventById(@PathVariable Long id) {
-        if (!aEventsRepository.deleteById(id)) {
+    public ResponseEntity deleteAEventById(@PathVariable Long id) {
+        if (aEventsRepository.findById(id) == null) {
             throw new ResourceNotFoundException("AEvent id=" + id + " not found");
         } else {
             aEventsRepository.deleteById(id);
