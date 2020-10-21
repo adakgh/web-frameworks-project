@@ -10,10 +10,12 @@ import java.util.concurrent.ThreadLocalRandom;
 public class AEvent {
     private static int eventid = 20001;
     public long id;
+    @JsonView(AEventView.SummaryView.class)
     public String title;
     public LocalDate start;
     public LocalDate end;
     public String description;
+    @JsonView(AEventView.SummaryView.class)
     public AEventStatus status;
     public double participationFee;
     public int maxParticipants;

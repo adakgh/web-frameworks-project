@@ -11,17 +11,20 @@ import java.util.stream.IntStream;
 
 @Component
 public class AEventsRepositoryMock implements AEventsRepository {
-    private List<AEvent> aEvents = new ArrayList<>();
-    private int idIncrement = 20001;
+    private final List<AEvent> aEvents;
+    private long startId = 20008;
 
     public AEventsRepositoryMock() {
+        this.aEvents = new ArrayList<>();
+
         for (int i = 0; i < 8; i++) {
             this.aEvents.add(AEvent.createRandomAEvent());
         }
     }
 
+    // creating a new ids starting from 20008
     private long getNextUniqueId() {
-        return Long.parseLong(String.format("2020-%05d", idIncrement++));
+        return Long.parseLong(String.format("%d", startId++));
     }
 
     // CRUD operations
@@ -31,6 +34,7 @@ public class AEventsRepositoryMock implements AEventsRepository {
         return this.aEvents;
     }
 
+    // retrieving the next AEvent by id
     private int getAEventIndexById(long id) {
         try {
             int max = (int) aEvents.stream().count();
@@ -63,14 +67,6 @@ public class AEventsRepositoryMock implements AEventsRepository {
             int index = getAEventIndexById(aEvent.getId());
             aEvents.set(index, aEvent);
         }
-
-//        for (int i = 0; i < aEvents.size(); i++) {
-//            if (aEvents.get(i).getId() == aEvent.getId()) {
-//                aEvents.set(i, aEvent);
-//                return aEvent;
-//            }
-//        }
-//        aEvents.add(aEvent);
         return aEvent;
     }
 
@@ -78,8 +74,7 @@ public class AEventsRepositoryMock implements AEventsRepository {
     // and returning the a-event that was deleted, or null if none existed
     @Override
     public boolean deleteById(long id) {
-        AEvent aEvent = this.findById(id);
-        this.aEvents.remove(aEvent);
-        return true;
+        AEvent aEvent = findById(id);
+        return aEvents.remove(aEvent);
     }
 }
