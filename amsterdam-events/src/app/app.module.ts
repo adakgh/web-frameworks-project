@@ -4,6 +4,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {AppComponent} from './app.component';
 
 import {HeaderComponent} from './components/mainpage/header/header.component';
@@ -18,6 +19,8 @@ import {Detail3Component} from './components/events/detail3/detail3.component';
 import {ErrorComponent} from './components/mainpage/error/error.component';
 import {Overview4Component} from './components/events/overview4/overview4.component';
 import {Detail4Component} from './components/events/detail4/detail4.component';
+import { Detail5Component } from './components/events/detail5/detail5.component';
+import { Overview5Component } from './components/events/overview5/overview5.component';
 
 // const appRoutes: Routes = [
 //   {path: 'home', component: HomeComponent},
@@ -49,6 +52,12 @@ const routes: Routes = [
           {path: '', pathMatch: 'full', redirectTo: '/events/overview4/-1'},
           {path: ':id', component: Detail4Component}
         ]
+      },
+      {
+        path: 'overview5', component: Overview5Component, children: [
+          {path: '', pathMatch: 'full', redirectTo: '/events/overview5/-1'},
+          {path: ':id', component: Detail5Component}
+        ]
       }
     ]
   },
@@ -68,7 +77,9 @@ const routes: Routes = [
     Detail3Component,
     ErrorComponent,
     Overview4Component,
-    Detail4Component
+    Detail4Component,
+    Detail5Component,
+    Overview5Component
   ],
   imports: [
     BrowserModule,

@@ -60,20 +60,18 @@ public class AEventsController {
 
     // POST mapping which adds a new aEvent to the repository
     // Exception if id is different from the id that is provided with the aEvent in the request body
-    // works without @RequestBody?
     @PostMapping("/aevents")
-    public ResponseEntity<AEvent> saveAEvent(AEvent aEvent) {
+    public ResponseEntity<Object> saveAEvent(@RequestBody AEvent aEvent) {
         AEvent savedAEvent = aEventsRepository.save(aEvent);
 
         URI location = getLocationURI(savedAEvent.getId());
-        return ResponseEntity.created(location).body(savedAEvent);
+        return ResponseEntity.created(location).body(aEvent);
     }
 
     // PUT mapping which updates/replaces the stored aEvent identified by id
     // Exception if id is different from the id that is provided with the aEvent in the request body
-    // works without @RequestBody?
     @PutMapping("/aevents/{id}")
-    public ResponseEntity<AEvent> updateAEvent(@PathVariable Long id, AEvent aEvent) {
+    public ResponseEntity<Object> updateAEvent(@PathVariable Long id, @RequestBody AEvent aEvent) {
         if (id.equals(aEvent.getId())) {
             AEvent savedAEvent = aEventsRepository.save(aEvent);
             return ResponseEntity.accepted().body(savedAEvent);
