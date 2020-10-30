@@ -7,7 +7,7 @@
         <th>Event title</th>
       </tr>
 
-      <tr *ngFor="let aevent of aevents" (click)="selectedAEventId = aevent.id; onSelect(aevent.id)"
+      <tr *ngFor="let aevent of this.aEventsService.aEvents" (click)="selectedAEventId = aevent.id; onSelect(aevent.id)"
           [class.active]="aevent.id == selectedAEventId">
         <td>{{aevent.title}}</td>
       </tr>

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AEvent} from '../../../models/a-event';
-import {AEventsService} from '../../../services/a-events.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {AEventsSbService} from '../../../services/a-events-sb.service';
 
 @Component({
   selector: 'app-overview5',
@@ -11,27 +11,12 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 export class Overview5Component implements OnInit {
   selectedAEventId = -1;
   aevents: AEvent[];
+  selectedEvent: AEvent;
 
-  constructor(public aEventsService: AEventsService,
+  constructor(public aEventsService: AEventsSbService,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
-    this.aevents = aEventsService.findAll();
-  }
-
-  handelClick(): void {
-    this.addRandomAEvent();
-  }
-
-  addRandomAEvent(): void {
-    this.aevents.push(AEvent.createRandomAEvent());
-  }
-
-  // tslint:disable-next-line:typedef
-  onSelect(eId: number) {
-    // this.router.navigate([eId], {relativeTo: this.activatedRoute});
-
-    this.router.navigate([eId], {relativeTo: this.activatedRoute});
-    console.log(eId);
+    this.aevents = this.aEventsService.findAll();
   }
 
   ngOnInit(): void {
@@ -39,5 +24,18 @@ export class Overview5Component implements OnInit {
       .subscribe((params: Params) => {
         this.selectedAEventId = (params.id || -1);
       });
+  }
+
+  handelClick(): void {
+    // @ts-ignore
+    this.aEventsService.restPostAEvent(new AEvent());
+  }
+
+
+  onSelect(eId: number): void {
+    // this.router.navigate([eId], {relativeTo: this.activatedRoute});
+
+    this.router.navigate([eId], {relativeTo: this.activatedRoute});
+    console.log(eId);
   }
 }

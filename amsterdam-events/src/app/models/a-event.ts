@@ -20,7 +20,7 @@ export class AEvent {
     this.maxParticipants = maxParticipants;
   }
 
-  private static eventid = 20001;
+  public static eventid = 20001;
   id: number;
   title: string;
   start: Date;
@@ -52,7 +52,7 @@ export class AEvent {
 
     if (ai.isTicketed === false) {
       const fee = null;
-      ai.participationFee = fee || 'free';
+      ai.participationFee = fee || 0;
       ai.maxParticipants = null;
     } else {
       ai.maxParticipants = Math.floor((Math.random() + 1) * 6 * 100);
@@ -79,6 +79,13 @@ export class AEvent {
     } else {
       return null;
     }
+  }
+
+  // converting an AEvent object with data fields
+  // only into a true AEvent instance that has been created with a constructor, and got its data
+  public static trueCopy(aEvent: AEvent): AEvent {
+    // @ts-ignore
+    return (aEvent == null ? null : Object.assign(new AEvent(), aEvent));
   }
 
   public equals(e): boolean {
