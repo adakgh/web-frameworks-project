@@ -5,21 +5,6 @@ export enum AEventStatus {
 }
 
 export class AEvent {
-
-  constructor(id: number, title: string, start: Date, end: Date, description: string,
-              // tslint:disable-next-line:ban-types
-              status: AEventStatus, isTicketed: Boolean, participationFee: number, maxParticipants: number) {
-    this.id = id;
-    this.title = title;
-    this.start = start;
-    this.end = end;
-    this.description = description;
-    this.status = status;
-    this.isTicketed = isTicketed;
-    this.participationFee = participationFee;
-    this.maxParticipants = maxParticipants;
-  }
-
   public static eventid = 20001;
   id: number;
   title: string;
@@ -28,9 +13,22 @@ export class AEvent {
   description: string;
   status: AEventStatus;
   // tslint:disable-next-line:ban-types
-  isTicketed: Boolean;
+  ticketed: Boolean;
   participationFee: number;
   maxParticipants: number;
+
+  constructor(id: number, title: string, start: Date, end: Date, description: string,
+              status: AEventStatus, ticketed: boolean, participationFee: number, maxParticipants: number) {
+    this.id = id;
+    this.title = title;
+    this.start = start;
+    this.end = end;
+    this.description = description;
+    this.status = status;
+    this.ticketed = ticketed;
+    this.participationFee = participationFee;
+    this.maxParticipants = maxParticipants;
+  }
 
   public static createRandomAEvent(): AEvent {
     // @ts-ignore
@@ -48,9 +46,9 @@ export class AEvent {
 
     ai.participationFee = Math.round(((Math.random() * 50) + Number.EPSILON) * 100.0) / 100.0;
 
-    ai.isTicketed = Math.random() < 0.5;
+    ai.ticketed = Math.random() < 0.5;
 
-    if (ai.isTicketed === false) {
+    if (ai.ticketed === false) {
       const fee = null;
       ai.participationFee = fee || 0;
       ai.maxParticipants = null;

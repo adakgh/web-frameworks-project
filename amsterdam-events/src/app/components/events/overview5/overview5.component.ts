@@ -10,13 +10,13 @@ import {AEventsSbService} from '../../../services/a-events-sb.service';
 })
 export class Overview5Component implements OnInit {
   selectedAEventId = -1;
-  aevents: AEvent[];
+  aEvents: AEvent[];
   selectedEvent: AEvent;
 
   constructor(public aEventsService: AEventsSbService,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
-    this.aevents = this.aEventsService.findAll();
+    this.aEvents = this.aEventsService.findAll();
   }
 
   ngOnInit(): void {
@@ -28,9 +28,10 @@ export class Overview5Component implements OnInit {
 
   handelClick(): void {
     // @ts-ignore
-    this.aEventsService.restPostAEvent(new AEvent());
+    this.aEventsService.restPostAEvent(AEvent.createRandomAEvent()).subscribe( event => {
+      this.aEventsService.aEvents.push(AEvent.trueCopy(event));
+    });
   }
-
 
   onSelect(eId: number): void {
     // this.router.navigate([eId], {relativeTo: this.activatedRoute});

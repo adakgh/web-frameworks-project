@@ -40,7 +40,7 @@ public class AEvent {
         AEvent aEvent = new AEvent();
 
         aEvent.id = eventid++;
-        aEvent.title = "The Fantastic Event-" + aEvent.id;
+        aEvent.title = "Backend Fantastic Event-" + aEvent.id;
 
         aEvent.start = randomDate(LocalDate.of(2020, Month.OCTOBER, 8), LocalDate.of(2020, Month.OCTOBER, 18));
         aEvent.end = randomDate(aEvent.start, LocalDate.of(2021, Month.FEBRUARY, 1));
@@ -88,29 +88,6 @@ public class AEvent {
         }
     }
 
-    @Override
-    public String toString() {
-        return "AEvent{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", start=" + start +
-                ", end=" + end +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", isTicketed=" + isTicketed +
-                ", participationFee=" + participationFee +
-                ", maxParticipants=" + maxParticipants +
-                '}';
-    }
-
-    public static int getEventid() {
-        return eventid;
-    }
-
-    public static void setEventid(int eventid) {
-        AEvent.eventid = eventid;
-    }
-
     @JsonView(AEventView.SummaryView.class)
     public Long getId() {
         return id;
@@ -118,80 +95,6 @@ public class AEvent {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public LocalDate getStart() {
-        return start;
-    }
-
-    public void setStart(LocalDate start) {
-        this.start = start;
-    }
-
-    public LocalDate getEnd() {
-        return end;
-    }
-
-    public void setEnd(LocalDate end) {
-        this.end = end;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public AEventStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AEventStatus status) {
-        this.status = status;
-    }
-
-    public double getParticipationFee() {
-        return participationFee;
-    }
-
-    public void setParticipationFee(double participationFee) {
-        this.participationFee = participationFee;
-    }
-
-    public int getMaxParticipants() {
-        return maxParticipants;
-    }
-
-    public void setMaxParticipants(int maxParticipants) {
-        this.maxParticipants = maxParticipants;
-    }
-
-    public boolean isTicketed() {
-        return isTicketed;
-    }
-
-    public void setTicketed(boolean ticketed) {
-        isTicketed = ticketed;
-    }
-
-    public boolean equals(AEvent e) {
-        return this.title.equals(e.title) &&
-                this.description.equals(e.description) &&
-                this.start == e.start &&
-                this.end == e.end &&
-                this.status == e.status &&
-                this.maxParticipants == e.maxParticipants &&
-                this.participationFee == e.participationFee;
     }
 
     public enum AEventStatus {

@@ -25,7 +25,7 @@
 
     <tr>
       <td> Is Ticketed</td>
-      <td><input type="checkbox" [(ngModel)]="editedAEvent.isTicketed"></td>
+      <td><input type="checkbox" [(ngModel)]="editedAEvent.ticketed"></td>
     </tr>
 
     <tr>
@@ -40,9 +40,8 @@
 
   </table>
   <br>
-  <button (click)="deleteClick()" [disabled]="savedBeforeDelete" type="btn">Delete</button>
+  <button (click)="deleteClick()" [disabled]="!hasChanged()" type="btn">Delete</button>
   <button (click)="saveClick()" [disabled]="hasChanged()" type="btn">Save</button>
-  <!--  <button (click)="saveClick(onclick())" [disabled]="hasChanged()" type="btn">Save</button>-->
   <button (click)="clearClick()" type="btn">Clear</button>
   <button (click)="resetClick()" [disabled]="hasChanged()" type="btn">Reset</button>
   <button (click)="cancelClick()" type="btn">Cancel</button>

@@ -10,6 +10,7 @@ export class AEventsSbService {
   onDataLoaded: Subject<AEvent[]>;
 
   constructor(private http: HttpClient) {
+    // calling method such that upon instantiation, it is immediately populated with data from the backend
     this.restGetAEvents();
   }
 
@@ -22,7 +23,7 @@ export class AEventsSbService {
         data.map(element => AEvent.trueCopy(element));
         this.aEvents = data;
         this.onDataLoaded.next(this.aEvents);
-      }
+      }, (err) => console.log(err)
     );
 
     return this.onDataLoaded;
@@ -40,63 +41,52 @@ export class AEventsSbService {
     return this.aEvents.find((event) => event.id == id);
   }
 
-  // TODO: let method return the observable of the http-request
-  // public addRandomAEvent(): void {
-  //   // @ts-ignore
-  //   const aEvent = new AEvent();
-  //   aEvent.title = 'The Fantastic Event-' + (this.aEvents.length++ + 20001);
-  //   aEvent.start = AEvent.createRandomAEvent().start;
-  //   aEvent.end = AEvent.createRandomAEvent().end;
-  //   aEvent.description = AEvent.createRandomAEvent().description;
-  //   aEvent.status = AEvent.createRandomAEvent().status;
-  //   aEvent.participationFee = AEvent.createRandomAEvent().participationFee;
-  //   aEvent.isTicketed = AEvent.createRandomAEvent().isTicketed;
-  //   aEvent.maxParticipants = AEvent.createRandomAEvent().maxParticipants;
-  //
-  //   this.aEvents.push(aEvent);
-  //   this.restPostAEvent(aEvent);
-  // }
-
-  // TODO
-  public restPostAEvent(aEvent): Observable<AEvent> {
-    // @ts-ignore
-    aEvent = new AEvent();
-    aEvent.title = 'The Fantastic Event-' + (this.aEvents.length++ + 20001);
-    aEvent.start = AEvent.createRandomAEvent().start;
-    aEvent.end = AEvent.createRandomAEvent().end;
-    aEvent.description = AEvent.createRandomAEvent().description;
-    aEvent.status = AEvent.createRandomAEvent().status;
-    aEvent.participationFee = AEvent.createRandomAEvent().participationFee;
-    aEvent.isTicketed = AEvent.createRandomAEvent().isTicketed;
-    aEvent.maxParticipants = AEvent.createRandomAEvent().maxParticipants;
-
-    // @ts-ignore
-    return this.http.post<AEvent[]>(this.baseUrl, aEvent).subscribe(
-      (event) => {
-        console.log(event);
-      }
-    );
+  // tslint:disable-next-line:typedef
+  save(aEvent: AEvent) {
+    // tslint:disable-next-line:triple-equals
+    this.aEvents[this.aEvents.findIndex((idx) => idx.id == aEvent.id)] = aEvent;
+    // redirecting to http put request
+    this.restPutAEvent(aEvent).subscribe(data => console.log(data));
   }
 
+  deleteById(id: number): AEvent {
+    // redirecting to http delete request
+    this.restDeleteAEvent(id);
+
+    // finding the index and removing from the a-events list
+    // tslint:disable-next-line:triple-equals
+    const index = this.aEvents.findIndex((idx) => idx.id == id);
+    // tslint:disable-next-line:triple-equals
+    if (index == -1) {
+      return null;
+    } else {
+      this.aEvents.splice(index, 1);
+    }
+  }
+
+  // HTTPClient requests
+  // adding a new a-event
+  public restPostAEvent(aEvent): Observable<AEvent> {
+    // setting the id as 0 so the id is generated automatically in the backend
+    aEvent.id = 0;
+    aEvent.title = 'The Fantastic Event-' + (this.aEvents.length + 20001);
+
+    // @ts-ignore
+    return this.http.post<AEvent[]>(this.baseUrl, aEvent);
+  }
+
+  // saving/updating an a-event
   public restPutAEvent(aEvent): Observable<AEvent> {
     // @ts-ignore
-    return this.http.put<AEvent[]>(this.baseUrl + '/' + aEvent.id, aEvent).subscribe(
-      (event) => {
-        console.log(event);
-      }
-    );
+    return this.http.put<AEvent[]>(this.baseUrl + '/' + aEvent.id, aEvent);
   }
 
+  // deleting an a-event
   public restDeleteAEvent(aEventId): void {
-    // first find the index
-    const aEvent: AEvent = this.findById(aEventId);
-    aEventId = this.aEvents.indexOf(aEvent);
-    // then delete
     this.http.delete<AEvent[]>(this.baseUrl + '/' + aEventId).subscribe(
       (event) => {
         console.log(event);
-      }
+      }, (err) => console.log(err)
     );
   }
-
 }
