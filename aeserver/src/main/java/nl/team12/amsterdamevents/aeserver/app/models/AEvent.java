@@ -1,14 +1,24 @@
 package nl.team12.amsterdamevents.aeserver.app.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import nl.team12.amsterdamevents.aeserver.app.views.AEventView;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class AEvent {
+@Entity
+public class AEvent implements Identifiable {
     private static int eventid = 20001;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AEvent_id")
+    @SequenceGenerator(name = "AEvent_id", initialValue = 20001, allocationSize = 8)
     public long id;
     @JsonView(AEventView.SummaryView.class)
     public String title;
@@ -16,10 +26,14 @@ public class AEvent {
     public LocalDate end;
     public String description;
     @JsonView(AEventView.SummaryView.class)
+    @Enumerated(EnumType.STRING)
     public AEventStatus status;
     public double participationFee;
     public int maxParticipants;
-    private boolean isTicketed;
+    public boolean isTicketed;
+    @OneToMany(mappedBy = "aEvent", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
+    public List<Registration> registrations;
 
     public AEvent(long id, String title, LocalDate start, LocalDate end, String description, AEventStatus status, boolean isTicketed, double participationFee, int maxParticipants) {
         this.id = id;
@@ -34,13 +48,18 @@ public class AEvent {
     }
 
     public AEvent() {
+        registrations = new ArrayList<>();
     }
 
+    /**
+     * A method to create a random AEvent.
+     *
+     * @return the created AEvent.
+     */
     public static AEvent createRandomAEvent() {
         AEvent aEvent = new AEvent();
 
-        aEvent.id = eventid++;
-        aEvent.title = "Backend Fantastic Event-" + aEvent.id;
+        aEvent.title = "Backend Fantastic Event-" + eventid++;
 
         aEvent.start = randomDate(LocalDate.of(2020, Month.OCTOBER, 8), LocalDate.of(2020, Month.OCTOBER, 18));
         aEvent.end = randomDate(aEvent.start, LocalDate.of(2021, Month.FEBRUARY, 1));
@@ -57,12 +76,19 @@ public class AEvent {
             aEvent.participationFee = 0;
             aEvent.maxParticipants = 0;
         } else {
-            aEvent.maxParticipants = (int) Math.floor((Math.random() + 1) * 6 * 100);
+            aEvent.maxParticipants = (int) Math.floor((Math.random() * 51));
         }
 
         return aEvent;
     }
 
+    /**
+     * A method to generate a random date between two dates.
+     *
+     * @param start the minimum date.
+     * @param end   the maximum date.
+     * @return the random date created.
+     */
     public static LocalDate randomDate(LocalDate start, LocalDate end) {
         long startEpochDay = start.toEpochDay();
         long endEpochDay = end.toEpochDay();
@@ -73,6 +99,11 @@ public class AEvent {
         return LocalDate.ofEpochDay(randomDay);
     }
 
+    /**
+     * A method to select a random status.
+     *
+     * @return the selected status.
+     */
     public static AEventStatus getRandomStatus() {
         var key = Math.floor(Math.random() * Math.floor(3) + 1);
         if (key == 1) {
@@ -88,13 +119,87 @@ public class AEvent {
         }
     }
 
+    /**
+     * A method to add a registration to an AEvent and to the registrations list.
+     *
+     * @param registration the registration that is going to be added.
+     */
+    public void addRegistration(Registration registration) {
+        registration.setaEvent(this);
+        this.registrations.add(registration);
+    }
+
+    /**
+     * A method that creates and adds new registration for this aevent
+     * checks whether this.status == PUBLISHED and
+     * maxParticipants has not been exceeded
+     *
+     * @param submissionDateTime the date and time of submission of the registration.
+     * @return the created registration or null.
+     */
+    public Registration createNewRegistration(LocalDateTime submissionDateTime) {
+        LocalDateTime randomSubmissionDateTime = Registration.randomDate(submissionDateTime, this.end.atStartOfDay());
+        if (this.getStatus().equals(AEvent.AEventStatus.PUBLISHED) && this.getMaxParticipants() <= this.getNumberOfRegistrations()) {
+            // create the registration
+            Registration registration = Registration.createRandomRegistration();
+            // set the submissionDateTime
+            registration.submissionDate = randomSubmissionDateTime;
+            // add the registration
+            this.addRegistration(registration);
+            return registration;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * A method to keep count of the number of registrations per AEvent.
+     *
+     * @return the number of registrations of an AEvent.
+     */
+    public int getNumberOfRegistrations() {
+        int count = 0;
+        for (Registration registration : registrations) {
+            if (this == registration.getaEvent()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public LocalDate getStart() {
+        return start;
+    }
+
     @JsonView(AEventView.SummaryView.class)
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public AEventStatus getStatus() {
+        return status;
+    }
+
+    public int getMaxParticipants() {
+        return maxParticipants;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AEvent aEvent = (AEvent) o;
+        return id == aEvent.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public enum AEventStatus {

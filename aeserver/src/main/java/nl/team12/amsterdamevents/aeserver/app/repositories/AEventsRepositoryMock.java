@@ -2,23 +2,24 @@ package nl.team12.amsterdamevents.aeserver.app.repositories;
 
 import nl.team12.amsterdamevents.aeserver.app.exceptions.ResourceNotFoundException;
 import nl.team12.amsterdamevents.aeserver.app.models.AEvent;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-@Component
-public class AEventsRepositoryMock implements AEventsRepository {
+@Repository
+public class AEventsRepositoryMock extends AbstractEntityRepositoryJpa<AEvent> {
     private final List<AEvent> aEvents;
     private long startId = 20008;
 
     public AEventsRepositoryMock() {
+        super(AEvent.class);
         this.aEvents = new ArrayList<>();
 
-        for (int i = 0; i < 8; i++) {
-            this.aEvents.add(AEvent.createRandomAEvent());
-        }
+//        for (int i = 0; i < 8; i++) {
+//            this.aEvents.add(AEvent.createRandomAEvent());
+//        }
     }
 
     // generating new ids starting from id 20008
@@ -35,7 +36,7 @@ public class AEventsRepositoryMock implements AEventsRepository {
             return IntStream.range(0, max)
                     .filter(idx ->
                     {
-                        return aEvents.get(idx).getId().equals(id);
+                        return aEvents.get(idx).getId() == id;
                     })
                     .findFirst().getAsInt();
         } catch (Exception e) {
@@ -60,7 +61,7 @@ public class AEventsRepositoryMock implements AEventsRepository {
     // if no such a-event exists yet
     @Override
     public AEvent save(AEvent aEvent) {
-        if (aEvent.getId().equals(0L)) {
+        if (aEvent.getId() == 0) {
             aEvent.setId(getNextUniqueId());
             aEvents.add(aEvent);
         } else {
