@@ -1,6 +1,6 @@
 package nl.team12.amsterdamevents.aeserver.app.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import nl.team12.amsterdamevents.aeserver.app.views.AEventView;
 
@@ -32,8 +32,8 @@ public class AEvent implements Identifiable {
     public int maxParticipants;
     public boolean isTicketed;
     @OneToMany(mappedBy = "aEvent", cascade = CascadeType.REMOVE)
-    @JsonManagedReference
-    public List<Registration> registrations;
+    @JsonBackReference
+    public List<Registration> registrations = new ArrayList<>();
 
     public AEvent(long id, String title, LocalDate start, LocalDate end, String description, AEventStatus status, boolean isTicketed, double participationFee, int maxParticipants) {
         this.id = id;
@@ -48,7 +48,6 @@ public class AEvent implements Identifiable {
     }
 
     public AEvent() {
-        registrations = new ArrayList<>();
     }
 
     /**
@@ -139,11 +138,13 @@ public class AEvent implements Identifiable {
      */
     public Registration createNewRegistration(LocalDateTime submissionDateTime) {
         LocalDateTime randomSubmissionDateTime = Registration.randomDate(submissionDateTime, this.end.atStartOfDay());
-        if (this.getStatus().equals(AEvent.AEventStatus.PUBLISHED) && this.getMaxParticipants() <= this.getNumberOfRegistrations()) {
+        if (this.getStatus().equals(AEvent.AEventStatus.PUBLISHED) && this.getMaxParticipants() >= this.getNumberOfRegistrations() || (this.getStatus().equals(AEventStatus.PUBLISHED) && this.getMaxParticipants() == 0)) {
             // create the registration
             Registration registration = Registration.createRandomRegistration();
             // set the submissionDateTime
             registration.submissionDate = randomSubmissionDateTime;
+            // set the ticketCode
+            registration.ticketCode = "tc-" + Registration.registrationid++;
             // add the registration
             this.addRegistration(registration);
             return registration;

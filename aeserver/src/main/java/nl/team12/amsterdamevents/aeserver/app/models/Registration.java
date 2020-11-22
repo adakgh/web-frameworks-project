@@ -1,6 +1,6 @@
 package nl.team12.amsterdamevents.aeserver.app.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 public class Registration implements Identifiable {
-    private static int registrationid = 12345;
+    public static int registrationid = 12345;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Registration_id")
     @SequenceGenerator(name = "Registration_id", initialValue = 10001, allocationSize = 8)
@@ -19,8 +19,8 @@ public class Registration implements Identifiable {
     public boolean paid;
     public LocalDateTime submissionDate;
     @ManyToOne
-    @JsonBackReference
-    public AEvent aEvent;
+    @JsonManagedReference
+    private AEvent aEvent;
 
     public Registration(long id, String ticketCode, boolean paid, LocalDateTime submissionDate) {
         this.id = id;
@@ -39,10 +39,7 @@ public class Registration implements Identifiable {
      */
     public static Registration createRandomRegistration() {
         Registration registration = new Registration();
-
-        registration.ticketCode = "tc-" + registrationid++;
         registration.paid = getRandomIsPaid();
-
         return registration;
     }
 

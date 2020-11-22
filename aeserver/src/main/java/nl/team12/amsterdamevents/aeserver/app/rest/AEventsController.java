@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -94,20 +96,21 @@ public class AEventsController {
     // Exception if the aEvent does not have status ‘PUBLISHED’
     // or the maximum number of participants have been registered already
     @PostMapping("/aevents/{id}/register")
-    public ResponseEntity<AEvent> addRegistration(@PathVariable long id, @RequestBody Registration registration) {
+    @Transactional
+    public ResponseEntity<Registration> addRegistration(@PathVariable long id, @RequestBody LocalDateTime localDateTime) {
         AEvent aEvent = aEventsRepository.findById(id);
         if (!aEvent.getStatus().equals(AEvent.AEventStatus.PUBLISHED)) {
             throw new PreConditionFailed("AEvent-id=" + aEvent.getId() + " is not published.");
-        } else if (aEvent.getNumberOfRegistrations() >= aEvent.getMaxParticipants() && aEvent.getMaxParticipants() != 0) {
+        } else if (aEvent.getNumberOfRegistrations() > aEvent.getMaxParticipants() && aEvent.getMaxParticipants() != 0) {
             throw new PreConditionFailed("AEvent-id=" + aEvent.getId() + " has exceeded the number of participants.");
-        } else {
-            aEvent.addRegistration(registration);
-            registrationRepository.save(registration);
         }
+
+        Registration registration = aEvent.createNewRegistration(localDateTime);
+        registrationRepository.save(registration);
 
         return ResponseEntity.created(
                 ServletUriComponentsBuilder.fromCurrentRequest().path("").build().toUri()
-        ).body(aEvent);
+        ).body(registration);
     }
 }
 
