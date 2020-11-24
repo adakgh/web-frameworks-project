@@ -3,8 +3,6 @@ package nl.team12.amsterdamevents.aeserver.app.repositories;
 import nl.team12.amsterdamevents.aeserver.app.models.Registration;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -12,9 +10,6 @@ import java.util.List;
 @Repository("REGISTRATIONS.JPA")
 @Transactional
 public class RegistrationsRepositoryJpa extends AbstractEntityRepositoryJpa<Registration> {
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public RegistrationsRepositoryJpa() {
         super(Registration.class);

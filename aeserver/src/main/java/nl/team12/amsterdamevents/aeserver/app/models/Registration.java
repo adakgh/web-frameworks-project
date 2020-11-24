@@ -1,6 +1,6 @@
 package nl.team12.amsterdamevents.aeserver.app.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,8 +19,8 @@ public class Registration implements Identifiable {
     public boolean paid;
     public LocalDateTime submissionDate;
     @ManyToOne
-    @JsonManagedReference
-    private AEvent aEvent;
+    @JsonBackReference
+    public AEvent aEvent;
 
     public Registration(long id, String ticketCode, boolean paid, LocalDateTime submissionDate) {
         this.id = id;

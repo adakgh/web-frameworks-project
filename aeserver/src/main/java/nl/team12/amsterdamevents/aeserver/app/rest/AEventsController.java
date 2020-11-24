@@ -97,7 +97,7 @@ public class AEventsController {
     // or the maximum number of participants have been registered already
     @PostMapping("/aevents/{id}/register")
     @Transactional
-    public ResponseEntity<Registration> addRegistration(@PathVariable long id, @RequestBody LocalDateTime localDateTime) {
+    public ResponseEntity<AEvent> addRegistration(@PathVariable long id, @RequestBody LocalDateTime localDateTime) {
         AEvent aEvent = aEventsRepository.findById(id);
         if (!aEvent.getStatus().equals(AEvent.AEventStatus.PUBLISHED)) {
             throw new PreConditionFailed("AEvent-id=" + aEvent.getId() + " is not published.");
@@ -108,9 +108,8 @@ public class AEventsController {
         Registration registration = aEvent.createNewRegistration(localDateTime);
         registrationRepository.save(registration);
 
-        return ResponseEntity.created(
-                ServletUriComponentsBuilder.fromCurrentRequest().path("").build().toUri()
-        ).body(registration);
+        URI location = getLocationURI(aEvent.getId());
+        return ResponseEntity.created(location).body(aEvent);
     }
 }
 

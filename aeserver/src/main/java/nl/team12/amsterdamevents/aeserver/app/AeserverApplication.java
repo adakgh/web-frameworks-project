@@ -48,10 +48,10 @@ public class AeserverApplication implements CommandLineRunner {
                 Registration registration = aEvent.createNewRegistration(aEvent.getStart().atStartOfDay());
                 if (registration != null) {
                     registration.setaEvent(aEvent);
-                    registration = this.registrationsRepository.save(registration);
+                    this.registrationsRepository.save(registration);
                 }
             }
-            aEvent = this.aEventsRepository.save(aEvent);
+            this.aEventsRepository.save(aEvent);
         }
 
     }

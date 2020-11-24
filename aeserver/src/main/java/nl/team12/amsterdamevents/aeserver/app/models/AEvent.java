@@ -1,6 +1,6 @@
 package nl.team12.amsterdamevents.aeserver.app.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import nl.team12.amsterdamevents.aeserver.app.views.AEventView;
 
@@ -32,7 +32,7 @@ public class AEvent implements Identifiable {
     public int maxParticipants;
     public boolean isTicketed;
     @OneToMany(mappedBy = "aEvent", cascade = CascadeType.REMOVE)
-    @JsonBackReference
+    @JsonManagedReference
     public List<Registration> registrations = new ArrayList<>();
 
     public AEvent(long id, String title, LocalDate start, LocalDate end, String description, AEventStatus status, boolean isTicketed, double participationFee, int maxParticipants) {
@@ -166,6 +166,10 @@ public class AEvent implements Identifiable {
             }
         }
         return count;
+    }
+
+    public List<Registration> getRegistrations() {
+        return registrations;
     }
 
     public LocalDate getStart() {

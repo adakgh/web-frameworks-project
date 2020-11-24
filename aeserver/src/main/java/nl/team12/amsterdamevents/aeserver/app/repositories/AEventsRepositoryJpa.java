@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -14,9 +12,6 @@ import java.util.List;
 @Primary
 @Transactional
 public class AEventsRepositoryJpa extends AbstractEntityRepositoryJpa<AEvent> {
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public AEventsRepositoryJpa() {
         super(AEvent.class);
