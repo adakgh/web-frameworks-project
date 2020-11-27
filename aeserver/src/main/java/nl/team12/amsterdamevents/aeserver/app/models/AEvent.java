@@ -13,6 +13,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
+@NamedQueries({
+        @NamedQuery(name = "AEvent_find_by_status" , query = "SELECT e FROM AEvent e WHERE e.status = :status"),
+        @NamedQuery(name = "AEvent_find_by_title", query = "SELECT e from AEvent e WHERE e.title = :title"),
+        @NamedQuery(name = "AEvent_find_by_minRegistrations", query = "SELECT e FROM AEvent e WHERE e.registrations >= :registrations")
+})
 @Entity
 public class AEvent implements Identifiable {
     private static int eventid = 20001;

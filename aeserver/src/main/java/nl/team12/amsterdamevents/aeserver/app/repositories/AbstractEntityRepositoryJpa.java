@@ -59,4 +59,9 @@ public abstract class AbstractEntityRepositoryJpa<E extends Identifiable> implem
         }
         return false;
     }
+
+    @Override
+    public List<E> findByQuery(String jpqlName, Object... params) {
+        return null;
+    }
 }

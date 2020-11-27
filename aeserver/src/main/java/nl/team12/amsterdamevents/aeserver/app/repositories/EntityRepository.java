@@ -13,4 +13,5 @@ public interface EntityRepository<E extends Identifiable> {
                                     // generates a new unique Id if entity.getId()==0
     boolean deleteById(long id);    // deletes the instance identified by entity.getId()
                                     // returns whether an existing instance has been deleted
+    List<E> findByQuery(String jpqlName, Object... params); // finds all instances from a named jpql-query
 }
