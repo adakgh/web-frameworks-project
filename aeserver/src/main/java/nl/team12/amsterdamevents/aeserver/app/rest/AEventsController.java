@@ -10,9 +10,11 @@ import nl.team12.amsterdamevents.aeserver.app.views.AEventView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.swing.*;
 import javax.transaction.Transactional;
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -33,6 +35,43 @@ public class AEventsController {
                 .path("/{id}")
                 .buildAndExpand(id)
                 .toUri();
+    }
+    @GetMapping(path = "", produces = "application/json")
+    @JsonView(AEventView.SummaryView.class)
+    public MappingJacksonValue getAllAEvents(@RequestParam(required = false) String titel,
+                                             @RequestParam(required = false) String status,
+                                             @RequestParam(required = false) Long minRegistrations) {
+
+
+        int para = (titel != null ? 1 : 0) + (minRegistrations != null ? 1 : 0) + (status != null ? 1 : 0);
+        if (para > 1) {
+            throw new ResourceNotFoundException("that is impossible!! can only handle one request ");
+        }
+
+        MappingJacksonValue mappingJacksonValue =null;
+
+        if (titel != null) {
+            mappingJacksonValue = new MappingJacksonValue(
+                    aEventsRepository.findByQuery("AEvent_find_by_title","%"+ titel+"%"));
+
+        }
+        else if (minRegistrations != null){
+            mappingJacksonValue = new MappingJacksonValue(
+                   aEventsRepository.findByQuery("AEvent_find_by_minRegistrations",minRegistrations.longValue()));
+        }
+
+        else if (status != null) {
+            mappingJacksonValue = new MappingJacksonValue(
+                    aEventsRepository.findByQuery("AEvent-find_by_status" , AEvent.AEventStatus.valueOf(status)));
+        }
+        else {
+
+            mappingJacksonValue = new MappingJacksonValue(aEventsRepository.findAll());
+
+
+        }
+        return mappingJacksonValue;
+
     }
 
     // GET mapping which gets all the aEvents
