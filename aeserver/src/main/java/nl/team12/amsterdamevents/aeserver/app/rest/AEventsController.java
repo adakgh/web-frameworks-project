@@ -10,11 +10,10 @@ import nl.team12.amsterdamevents.aeserver.app.views.AEventView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.swing.*;
 import javax.transaction.Transactional;
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -36,47 +35,35 @@ public class AEventsController {
                 .buildAndExpand(id)
                 .toUri();
     }
-    @GetMapping(path = "", produces = "application/json")
-    @JsonView(AEventView.SummaryView.class)
-    public MappingJacksonValue getAllAEvents(@RequestParam(required = false) String titel,
-                                             @RequestParam(required = false) String status,
-                                             @RequestParam(required = false) Long minRegistrations) {
-
-
-        int para = (titel != null ? 1 : 0) + (minRegistrations != null ? 1 : 0) + (status != null ? 1 : 0);
-        if (para > 1) {
-            throw new ResourceNotFoundException("that is impossible!! can only handle one request ");
-        }
-
-        MappingJacksonValue mappingJacksonValue =null;
-
-        if (titel != null) {
-            mappingJacksonValue = new MappingJacksonValue(
-                    aEventsRepository.findByQuery("AEvent_find_by_title","%"+ titel+"%"));
-
-        }
-        else if (minRegistrations != null){
-            mappingJacksonValue = new MappingJacksonValue(
-                   aEventsRepository.findByQuery("AEvent_find_by_minRegistrations",minRegistrations.longValue()));
-        }
-
-        else if (status != null) {
-            mappingJacksonValue = new MappingJacksonValue(
-                    aEventsRepository.findByQuery("AEvent-find_by_status" , AEvent.AEventStatus.valueOf(status)));
-        }
-        else {
-
-            mappingJacksonValue = new MappingJacksonValue(aEventsRepository.findAll());
-
-
-        }
-        return mappingJacksonValue;
-
-    }
 
     // GET mapping which gets all the aEvents
     @GetMapping("/aevents")
-    public List<AEvent> getAllEvents() {
+    public List<AEvent> getAllEvents(@RequestParam(name = "title", required = false) String title,
+                                     @RequestParam(name = "status", required = false) String status,
+                                     @RequestParam(name = "minRegistrations", required = false) Integer minRegistration) {
+
+        int param = (title != null ? 1 : 0) + (minRegistration != null ? 1 : 0) + (status != null ? 1 : 0);
+        if (param > 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can only handle one request parameter title=, status= or minRegistration=");
+        }
+
+        if (title != null) {
+            return aEventsRepository.findByQuery("AEvent_find_by_title", '%' + title + '%');
+        }
+
+        if (status != null) {
+            for (AEvent.AEventStatus value : AEvent.AEventStatus.values()) {
+                if (value.name().equals(status)) {
+                    return aEventsRepository.findByQuery("AEvent_find_by_status", value);
+                }
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "status=" + status + " is not a valid aEvent status value");
+        }
+
+        if (minRegistration != null) {
+            return aEventsRepository.findByQuery("AEvent_find_by_minRegistrations", minRegistration);
+        }
+
         return aEventsRepository.findAll();
     }
 
@@ -110,7 +97,7 @@ public class AEventsController {
 
     // PUT mapping which updates/replaces the stored aEvent identified by id
     // Exception if id is different from the id that is provided with the aEvent in the request body
-    @PutMapping("/aevents/{id}")
+    @PutMapping(path = "/aevents/{id}")
     public ResponseEntity<Object> updateAEvent(@PathVariable long id, @RequestBody AEvent aEvent) {
         if (id == aEvent.getId()) {
             AEvent savedAEvent = aEventsRepository.save(aEvent);
@@ -136,7 +123,7 @@ public class AEventsController {
     // or the maximum number of participants have been registered already
     @PostMapping("/aevents/{id}/register")
     @Transactional
-    public ResponseEntity<AEvent> addRegistration(@PathVariable long id, @RequestBody LocalDateTime localDateTime) {
+    public ResponseEntity<Registration> addRegistration(@PathVariable long id, @RequestBody LocalDateTime localDateTime) {
         AEvent aEvent = aEventsRepository.findById(id);
         if (!aEvent.getStatus().equals(AEvent.AEventStatus.PUBLISHED)) {
             throw new PreConditionFailed("AEvent-id=" + aEvent.getId() + " is not published.");
@@ -148,7 +135,7 @@ public class AEventsController {
         registrationRepository.save(registration);
 
         URI location = getLocationURI(aEvent.getId());
-        return ResponseEntity.created(location).body(aEvent);
+        return ResponseEntity.created(location).body(registration);
     }
 }
 

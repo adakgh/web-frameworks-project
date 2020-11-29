@@ -62,6 +62,20 @@ public abstract class AbstractEntityRepositoryJpa<E extends Identifiable> implem
 
     @Override
     public List<E> findByQuery(String jpqlName, Object... params) {
-        return null;
+        TypedQuery<E> query = entityManager.createNamedQuery(jpqlName, theEntityClass);
+
+        switch (jpqlName){
+            case "AEvent_find_by_title":
+                query.setParameter("title", params[0]);
+                break;
+            case "AEvent_find_by_status":
+                query.setParameter("status", params[0]);
+                break;
+            case "AEvent_find_by_minRegistrations":
+                query.setParameter("minRegistrations", params[0]);
+                break;
+        }
+
+        return query.getResultList();
     }
 }
