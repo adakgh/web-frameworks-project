@@ -24,7 +24,6 @@ public class User implements Identifiable {
         this.id = id;
         this.name = name;
         this.eMail = eMail;
-        this.hashedPassWord = hashedPassWord;
         this.admin = admin;
     }
 

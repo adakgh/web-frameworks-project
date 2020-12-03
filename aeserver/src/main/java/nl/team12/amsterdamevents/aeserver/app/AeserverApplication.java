@@ -39,7 +39,6 @@ public class AeserverApplication implements CommandLineRunner {
         // check whether the repo is empty
         List<AEvent> aEvents = this.aEventsRepository.findAll();
         List<Registration> registrations = this.registrationsRepository.findAll();
-        List<User> users = this.userRepository.findAll();
         if (aEvents.size() > 0 && registrations.size() > 0) return;
         if (registrations.size() > 0) return;
         System.out.println("Configuring some initial data");
@@ -48,7 +47,7 @@ public class AeserverApplication implements CommandLineRunner {
             // create and add new aEvents with random data
             AEvent aEvent = AEvent.createRandomAEvent();
 
-            User user = new User(1, "sjonnie", "sjonnie@hva.nl", "sjonnie", false);
+            User user = new User(1, "sjonnie", "sjonnie@hva.nl", "sjonnie", true);
 
             // create and add new registrations with random data
             for (int j = 0; j < 3; j++) {
