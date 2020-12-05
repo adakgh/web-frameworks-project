@@ -46,7 +46,7 @@ public class JWToken {
      * @param admin is an administrator?
      * @return the token representation
      */
-    public String encode(String passWord, String issuer, String id, boolean admin, int expiration) {
+    public String encode(String id, boolean admin, int expiration) {
 
         Key key = getKey(passWord);
 
