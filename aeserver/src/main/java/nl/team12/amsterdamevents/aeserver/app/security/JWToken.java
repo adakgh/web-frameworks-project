@@ -14,12 +14,13 @@ import java.util.Date;
 
 @Component
 public class JWToken {
+    // A claim indicating if the user is an administrator
     private static final String JWT_USERNAME_CLAIM = "sub";
     private static final String JWT_USERID_CLAIM = "id";
     private static final String JWT_ADMIN_CLAIM = "admin";
 
-    private String userName = null;
-    private Long userId = null;
+    private String userName = "Username";
+    private Long userId = 0L;
     private boolean admin = false;
 
     // JWT configurations
@@ -32,13 +33,21 @@ public class JWToken {
     @Value("${jwt.expiration-seconds}")
     private int expiration;
 
+    @Autowired
+    public JWToken(String userName, Long userId, boolean admin) {
+        this.userName = userName;
+        this.userId = userId;
+        this.admin = admin;
+    }
+
     /**
      * Generate a Json Web Token
      * @param id user id (or subject)
      * @param admin is an administrator?
      * @return the token representation
      */
-    public String encode(String id, boolean admin) {
+    public String encode(String passWord, String issuer, String id, boolean admin, int expiration) {
+
         Key key = getKey(passWord);
 
         return Jwts.builder()
@@ -46,7 +55,7 @@ public class JWToken {
                 .claim(JWT_ADMIN_CLAIM, Boolean.toString(admin)) // public claim
                 .setIssuer(issuer) // registered claim
                 .setIssuedAt(new Date()) // registered claim
-                .setExpiration(new Date(System.currentTimeMillis() + expiration)) // registered claim
+                .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000)) // registered claim
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }

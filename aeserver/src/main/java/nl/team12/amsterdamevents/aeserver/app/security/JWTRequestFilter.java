@@ -1,5 +1,6 @@
 package nl.team12.amsterdamevents.aeserver.app.security;
 
+import nl.team12.amsterdamevents.aeserver.app.exceptions.AuthorizedException;
 import nl.team12.amsterdamevents.aeserver.app.exceptions.UnAuthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -7,7 +8,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.naming.AuthenticationException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +39,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             // OPTIONS requests and non-secured area should pass through without check
             if (HttpMethod.OPTIONS.matches(request.getMethod()) ||
                     SECURED_PATHS.stream().noneMatch(servletPath::startsWith)) {
+
                 chain.doFilter(request, response);
                 return;
             }
@@ -54,11 +55,11 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
             // decode the token
             // TODO: password????
-            jwToken = JWToken.decode(encryptedToken, this);
+//            jwToken = JWToken.decode(encryptedToken,jwToken.passWord);
 
             // Validate the token
             if (jwToken == null) {
-                throw new UnAuthorizedException("You need to login first.");
+                throw new AuthorizedException("You need to login first.");
             }
 
             // pass-on the token info as an attribute for the request
@@ -71,32 +72,5 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication error");
             return;
         }
-
-
-////        JWToken jwToken = null;
-//        // get the encrypted token string from the authorization request header
-//        encryptedToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-//        // de encryptedToken is niet initialized
-//
-//        // block the request if no token was found
-//        if (encryptedToken != null) {
-//            // remove the "Bearer" token prefix, if used
-//            encryptedToken = encryptedToken.replace("Bearer", "");
-//        }
-//        // decode the token
-//        JwToken = JWToken.decode(encryptedToken, jwToken.passPhrase);
-//
-//        // Validate the token
-//        if (jwToken == null) {
-//            throw UnAuthorizedException("You need to login first.");
-//        }
-//
-//        // pass-on the token info as an attribute for the request
-//        request.setAttribute(JWToken.JWT_ATTRIBUTE_NAME,jwToken);
-//
-//        chain.doFilter(request, response);
-//    } catch (AuthenticationException exception){
-//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication error");
-//        return;
     }
 }
