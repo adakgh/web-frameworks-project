@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
@@ -25,7 +24,7 @@ public class AuthenticateController {
     @Autowired
     private JWToken jwToken;
 
-
+    // TODO: uncomment when repository has enough data
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody ObjectNode userInfo,
                                       HttpServletRequest request,
@@ -35,22 +34,22 @@ public class AuthenticateController {
         String password = userInfo.get("passWord").asText();
 
         // Authenticate the user using the credentials provided
-        User user = new User();
-        List<User> users = userRepository.findAll();
-        boolean admin = false;
-
-        for (User newUser : users) {
-            if (newUser.geteMail().equals(email)) {
-                user = newUser;
-            }
-
-            if (newUser.isAdmin()) {
-                admin = true;
-            }
-        }
+//        User user = new User();
+//        List<User> users = userRepository.findAll();
+//        boolean admin = false;
+//
+//        for (User newUser : users) {
+//            if (newUser.geteMail().equals(email)) {
+//                user = newUser;
+//            }
+//
+//            if (newUser.isAdmin()) {
+//                admin = true;
+//            }
+//        }
 
         // Authenticate the user by finding by id
-        User newUser = userRepository.findById(user.getId());
+//        User newUser = userRepository.findById(user.getId());
 
         // If password incorrect throw an exception
         if (!password.equals(email.substring(0, email.indexOf("@")))) {
@@ -58,10 +57,14 @@ public class AuthenticateController {
         }
 
         // Issue a token for the user valid for some time
-        String tokenString = jwToken.encode(email, admin);
+        String tokenString = jwToken.encode(email, false);
+//        String tokenString = jwToken.encode(email, admin);
 
+//        return ResponseEntity.accepted()
+//                .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenString)
+//                .body(newUser);
         return ResponseEntity.accepted()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenString)
-                .body(newUser);
+                .body(new User(2, email.substring(0, email.indexOf("@")), email, false));
     }
 }

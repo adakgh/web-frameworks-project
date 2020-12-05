@@ -31,44 +31,38 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         JWToken jwToken = null;
         String encryptedToken;
 
-        try {
-            // Get requested path
-            String servletPath = request.getServletPath();
+        // get requested path
+        String servletPath = request.getServletPath();
 
-            // OPTIONS requests and non-secured area should pass through without check
-            if (HttpMethod.OPTIONS.matches(request.getMethod()) ||
-                    SECURED_PATHS.stream().noneMatch(servletPath::startsWith)) {
-
-                chain.doFilter(request, response);
-                return;
-            }
-
-            // get the encrypted token string from the authorization request header
-            encryptedToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-            // block the request if no token was found
-            if (encryptedToken != null) {
-                // remove the "Bearer" token prefix, if used
-                encryptedToken = encryptedToken.replace("Bearer", "");
-
-                // decode the token
-                jwToken = jwTokenClass.decode(encryptedToken);
-
-                // pass-on the token info as an attribute for the request
-                request.setAttribute(JWToken.JWT_ATTRIBUTE_NAME, jwToken);
-
-                // proceed with the chain
-                chain.doFilter(request, response);
-            }
-
-            // Validate the token
-            if (jwToken == null) {
-                throw new UnAuthorizedException("You need to login first.");
-            }
-        } catch (Exception e) {
-            // aborting the chain
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication error");
+        // OPTIONS requests and non-secured area should pass through without check
+        if (HttpMethod.OPTIONS.matches(request.getMethod()) ||
+                SECURED_PATHS.stream().noneMatch(servletPath::startsWith)) {
+            chain.doFilter(request, response);
             return;
         }
+
+        // get the encrypted token string from the authorization request header
+        encryptedToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        // block the request if no token was found
+        if (encryptedToken != null) {
+            // remove the "Bearer" token prefix, if used
+            encryptedToken = encryptedToken.replace("Bearer ", "");
+
+            // decode the token
+            jwToken = jwTokenClass.decode(encryptedToken);
+
+            // get a representation of the token for future usage
+            request.setAttribute(JWToken.JWT_ATTRIBUTE_NAME, jwToken);
+
+            // proceed with the chain
+            chain.doFilter(request, response);
+        }
+
+        // validate the token
+        if (jwToken == null) {
+            throw new UnAuthorizedException("You need to login first");
+        }
     }
+
 }

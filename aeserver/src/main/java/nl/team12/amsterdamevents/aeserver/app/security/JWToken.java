@@ -2,8 +2,6 @@ package nl.team12.amsterdamevents.aeserver.app.security;
 
 
 import io.jsonwebtoken.*;
-import nl.team12.amsterdamevents.aeserver.app.exceptions.UnAuthorizedException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +12,6 @@ import java.util.Date;
 
 @Component
 public class JWToken {
-    // A claim indicating if the user is an administrator
     private static final String JWT_USERNAME_CLAIM = "sub";
     private static final String JWT_USERID_CLAIM = "id";
     private static final String JWT_ADMIN_CLAIM = "admin";
@@ -35,13 +32,25 @@ public class JWToken {
     @Value("${jwt.expiration-seconds}")
     private int expiration;
 
-    public JWToken () {
-
+    public JWToken() {
     }
+
     public JWToken(String userName, Long userId, boolean admin) {
         this.userName = userName;
         this.userId = userId;
         this.admin = admin;
+    }
+
+    /**
+     * Get the secret key
+     *
+     * @param passWord
+     * @return secret key
+     */
+    public static Key getKey(String passWord) {
+        byte hmacKey[] = passWord.getBytes(StandardCharsets.UTF_8);
+        Key key = new SecretKeySpec(hmacKey, SignatureAlgorithm.HS512.getJcaName());
+        return key;
     }
 
     /**
@@ -65,27 +74,16 @@ public class JWToken {
     }
 
     /**
-     * Get the secret key
-     *
-     * @param passWord
-     * @return secret key
-     */
-    private static Key getKey(String passWord) {
-        byte hmacKey[] = passWord.getBytes(StandardCharsets.UTF_8);
-        Key key = new SecretKeySpec(hmacKey, SignatureAlgorithm.HS512.getJcaName());
-        return key;
-    }
-
-    /**
      * Decoding the token string.
      *
      * @param token
      * @return
      */
-    public JWToken decode(String token) throws UnAuthorizedException {
+    public JWToken decode(String token) {
         try {
             // validate the token
             Key key = getKey(passWord);
+
             Jws<Claims> jws = Jwts.parser().setSigningKey(key).parseClaimsJws(token);
             Claims claims = jws.getBody();
 
@@ -96,10 +94,9 @@ public class JWToken {
             );
 
             return jwToken;
-
         } catch (ExpiredJwtException | MalformedJwtException |
-                UnsupportedJwtException | IllegalArgumentException | SignatureException e) {
-            throw new UnAuthorizedException(e.getMessage());
+                UnsupportedJwtException | IllegalArgumentException e) {
+            return null;
         }
     }
 }
