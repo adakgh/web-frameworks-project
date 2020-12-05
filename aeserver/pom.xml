@@ -81,7 +81,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- end JWT jackson -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+        </dependency>
+        <!-- end JWT jackson -->
 	</dependencies>
 
 	<build>
