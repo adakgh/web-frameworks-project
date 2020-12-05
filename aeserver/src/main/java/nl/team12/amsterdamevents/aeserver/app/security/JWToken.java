@@ -33,7 +33,9 @@ public class JWToken {
     @Value("${jwt.expiration-seconds}")
     private int expiration;
 
-    @Autowired
+    public JWToken () {
+
+    }
     public JWToken(String userName, Long userId, boolean admin) {
         this.userName = userName;
         this.userId = userId;
