@@ -1,6 +1,5 @@
 package nl.team12.amsterdamevents.aeserver.app.security;
 
-import nl.team12.amsterdamevents.aeserver.app.exceptions.AuthorizedException;
 import nl.team12.amsterdamevents.aeserver.app.exceptions.UnAuthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +22,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             Set.of("/aevents", "/registrations", "/users");
 
     @Autowired
-    private JWToken jwToken;
+    private JWToken jwTokenClass;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -51,22 +50,21 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             if (encryptedToken != null) {
                 // remove the "Bearer" token prefix, if used
                 encryptedToken = encryptedToken.replace("Bearer", "");
-            }
 
-            // decode the token
-            // TODO: password????
-//            jwToken = JWToken.decode(encryptedToken,jwToken.passWord);
+                // decode the token
+                jwToken = jwTokenClass.decode(encryptedToken);
+
+                // pass-on the token info as an attribute for the request
+                request.setAttribute(JWToken.JWT_ATTRIBUTE_NAME, jwToken);
+
+                // proceed with the chain
+                chain.doFilter(request, response);
+            }
 
             // Validate the token
             if (jwToken == null) {
-                throw new AuthorizedException("You need to login first.");
+                throw new UnAuthorizedException("You need to login first.");
             }
-
-            // pass-on the token info as an attribute for the request
-            request.setAttribute(JWToken.JWT_ATTRIBUTE_NAME, jwToken);
-
-            // proceed with the chain
-            chain.doFilter(request, response);
         } catch (Exception e) {
             // aborting the chain
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication error");
