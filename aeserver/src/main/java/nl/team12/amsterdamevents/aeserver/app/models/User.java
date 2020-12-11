@@ -48,7 +48,31 @@ public class User implements Identifiable {
         return eMail;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
+    }
+
+    public String getHashedPassWord() {
+        return hashedPassWord;
+    }
+
+    public void setHashedPassWord(String hashedPassWord) {
+        this.hashedPassWord = hashedPassWord;
+    }
+
     public boolean isAdmin() {
         return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean validateEncodedPassword(String hashedPassWord) {
+        return this.name.equals(hashedPassWord);
     }
 }

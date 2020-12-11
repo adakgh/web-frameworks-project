@@ -9,6 +9,7 @@ import {shareReplay} from 'rxjs/operators';
 })
 export class SessionSbService {
   public readonly BACKEND_AUTH_URL = 'http://localhost:8080/authenticate';
+  private readonly BS_TOKEN_NAME = 'AE_SB_AUTH_TOKEN';
 
   public currentUserName: string = null;
 
@@ -56,7 +57,13 @@ export class SessionSbService {
 
   // retrieves the JWT authentication token and user details from the session (or local
   // browser storage).
+  // allow for different user sessions from the same computer
   getTokenFromSessionStorage(): string {
+    let token = sessionStorage.getItem(this.BS_TOKEN_NAME);
+    if (token == null) {
+      token = localStorage.getItem(this.BS_TOKEN_NAME);
+      sessionStorage.setItem(this.BS_TOKEN_NAME, token);
+    }
     return sessionStorage.getItem('token');
   }
 
