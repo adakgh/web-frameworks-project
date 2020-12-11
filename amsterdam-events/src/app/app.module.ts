@@ -1,13 +1,14 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
-import {HttpClient} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AppComponent} from './app.component';
 
 import {AEventsSbService} from './services/a-events-sb.service';
+import {SessionSbService} from './services/session-sb.service';
+import {AuthSbInterceptor} from './services/auth-sb-interceptor';
 
 import {HeaderComponent} from './components/mainpage/header/header.component';
 import {HomeComponent} from './components/mainpage/home/home.component';
@@ -23,6 +24,9 @@ import {Overview4Component} from './components/events/overview4/overview4.compon
 import {Detail4Component} from './components/events/detail4/detail4.component';
 import {Detail5Component} from './components/events/detail5/detail5.component';
 import {Overview5Component} from './components/events/overview5/overview5.component';
+import {HeaderSbComponent} from './components/mainpage/header-sb/header-sb.component';
+import {SignonComponent} from './components/mainpage/signon/signon.component';
+import {NavBarSbComponent} from './components/mainpage/nav-bar-sb/nav-bar-sb.component';
 
 // const appRoutes: Routes = [
 //   {path: 'home', component: HomeComponent},
@@ -63,6 +67,7 @@ const routes: Routes = [
       }
     ]
   },
+  {path: 'login', component: SignonComponent},
   {path: '**', component: ErrorComponent}
 ];
 
@@ -81,16 +86,22 @@ const routes: Routes = [
     Overview4Component,
     Detail4Component,
     Detail5Component,
-    Overview5Component
+    Overview5Component,
+    HeaderSbComponent,
+    SignonComponent,
+    NavBarSbComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes, {useHash: true})
+    RouterModule.forRoot(routes, {useHash: true}),
+    ReactiveFormsModule
   ],
   providers: [
-    AEventsSbService
+    AEventsSbService,
+    SessionSbService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthSbInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

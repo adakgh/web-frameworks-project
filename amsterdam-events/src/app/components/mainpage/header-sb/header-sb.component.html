@@ -1,0 +1,15 @@
+<header>
+  <h1 id="title">Amsterdam Events</h1>
+  <div id="logo-right">
+    <img src="../assets/images/hero-office-netherlands-amsterdam-desktop.png" width="120px">
+    <br>
+    <br>
+    <span *ngIf="sessionService.currentUserName != null" class="sub-title">Welcome {{sessionService.currentUserName}}</span>
+    <span *ngIf="sessionService.currentUserName == null" class="sub-title">Welcome visitor</span>
+  </div>
+  <img id="logo-left" src="../assets/images/amsterdam-xxx-vector-logo-2.png" width="90px">
+  <br>
+  <div id="time-left"><p>today is</p>{{ time | date:'fullDate' }}</div>
+  <br>
+  <br>
+</header>
