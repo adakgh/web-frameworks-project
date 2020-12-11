@@ -1,6 +1,5 @@
 package nl.team12.amsterdamevents.aeserver.app.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -8,15 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class ResourceConfig implements WebMvcConfigurer {
-
-    @Value("${jwt.issuer:private company}")
-    public String issuer;
-
-    @Value("${jwt.pass-phrase}")
-    public String passWord;
-
-    @Value("${jwt.expiration-seconds}")
-    public int expiration;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
