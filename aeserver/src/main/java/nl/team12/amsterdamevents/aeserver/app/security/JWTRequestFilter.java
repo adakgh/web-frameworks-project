@@ -58,6 +58,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
                 // proceed with the chain
                 chain.doFilter(request, response);
+            } else {
+                throw new UnAuthorizedException("You need to login first");
             }
         } catch (UnAuthorizedException e) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication error, you need to login first");
