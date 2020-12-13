@@ -21,7 +21,7 @@ export class AuthSbInterceptor implements HttpInterceptor {
       };
 
       const cloned = req.clone({
-        setHeaders: headersConfig
+        setHeaders: headersConfig, withCredentials: true
       });
 
       // using pipe(share()) to prevent multiple submissions per subscriber

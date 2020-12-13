@@ -9,7 +9,7 @@ import {shareReplay} from 'rxjs/operators';
 })
 export class SessionSbService {
   public readonly BACKEND_AUTH_URL = 'http://localhost:8080/authenticate';
-  private readonly BS_TOKEN_NAME = 'token';
+  private readonly BS_TOKEN_NAME = 'AE_SB_AUTH_TOKEN';
 
   public currentUserName: string = null;
 
@@ -44,10 +44,10 @@ export class SessionSbService {
     return signInReponse;
   }
 
-  // discards user details and the JWT authentication token from the session
+  // discards user details and the JWT authentication token from the session and local storage
   signOff(): void {
-    sessionStorage.removeItem('token');
-    localStorage.removeItem('token');
+    sessionStorage.removeItem(this.BS_TOKEN_NAME);
+    localStorage.removeItem(this.BS_TOKEN_NAME);
   }
 
   // indicates whether a user has been logged on into the session or not
@@ -56,7 +56,7 @@ export class SessionSbService {
   }
 
   // retrieves the JWT authentication token and user details from the session
-  // allow for different user sessions from the same computer
+  // allows for different user sessions from the same computer
   getTokenFromSessionStorage(): string {
     let token = sessionStorage.getItem(this.BS_TOKEN_NAME);
     if (token == null) {
@@ -71,6 +71,9 @@ export class SessionSbService {
     // setting the token
     token = token.replace('Bearer ', '');
     sessionStorage.setItem(this.BS_TOKEN_NAME, token);
+    localStorage.setItem(this.BS_TOKEN_NAME, token);
+
+    console.log('New token for user: ' + token);
 
     // setting the user details
     this.currentUserName = username;

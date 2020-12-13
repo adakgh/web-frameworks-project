@@ -31,6 +31,7 @@ export class SignonComponent implements OnInit {
       data => {
       this.router.navigate(['']);
     }, (error) => {
+        alert('Emailaddress and/or password are incorrect! Please try again');
         console.log(error);
       });
 

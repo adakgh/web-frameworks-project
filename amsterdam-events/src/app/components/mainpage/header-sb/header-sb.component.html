@@ -4,8 +4,8 @@
     <img src="../assets/images/hero-office-netherlands-amsterdam-desktop.png" width="120px">
     <br>
     <br>
-    <span *ngIf="sessionService.currentUserName != null" class="sub-title">Welcome {{sessionService.currentUserName}}</span>
-    <span *ngIf="sessionService.currentUserName == null" class="sub-title">Welcome visitor</span>
+    <span *ngIf="sessionService.isAuthenticated()" class="sub-title">Welcome {{sessionService.currentUserName}}</span>
+    <span *ngIf="!sessionService.isAuthenticated()" class="sub-title">Welcome visitor</span>
   </div>
   <img id="logo-left" src="../assets/images/amsterdam-xxx-vector-logo-2.png" width="90px">
   <br>
