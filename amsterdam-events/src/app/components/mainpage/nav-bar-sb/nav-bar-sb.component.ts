@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SessionSbService} from '../../../services/session-sb.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar-sb',
@@ -8,7 +9,8 @@ import {SessionSbService} from '../../../services/session-sb.service';
 })
 export class NavBarSbComponent implements OnInit {
 
-  constructor(public sessionService: SessionSbService) {
+  constructor(public sessionService: SessionSbService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -16,5 +18,8 @@ export class NavBarSbComponent implements OnInit {
 
   logout(): void {
     this.sessionService.signOff();
+    this.router.navigate(['']).then(() => {
+      window.location.reload();
+    });
   }
 }

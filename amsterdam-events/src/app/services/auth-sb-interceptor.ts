@@ -15,9 +15,7 @@ export class AuthSbInterceptor implements HttpInterceptor {
     const token = this.session.getTokenFromSessionStorage();
 
     if (token != null) {
-      // TODO clone te request, adding the token in the authorization header
       // pass on the cloned request to the next handler
-
       const headersConfig = {
         Authorization: 'Bearer ' + token
       };
@@ -26,11 +24,10 @@ export class AuthSbInterceptor implements HttpInterceptor {
         setHeaders: headersConfig
       });
 
-      // using pipe(share()) to prevent multiple submissions per subscriber (observables are cold)
+      // using pipe(share()) to prevent multiple submissions per subscriber
       const observable = next.handle(cloned).pipe(share());
 
-      observable.subscribe((data) => {
-        // For future usage: if you want to intercept responses, this is the place :-)
+      observable.subscribe(data => {
         console.log('intercepting response ', data);
       }, (error) => {
         console.error('error in interceptor:', error);

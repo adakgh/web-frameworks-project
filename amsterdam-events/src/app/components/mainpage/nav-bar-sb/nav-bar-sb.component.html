@@ -28,7 +28,7 @@
         <li [routerLink]="['account']"><a>My Account</a></li>
         <li [routerLink]="['signup']" *ngIf="sessionService.currentUserName == null"><a>Sign up</a></li>
         <li [routerLink]="['login']" *ngIf="sessionService.currentUserName == null"><a>Log in</a></li>
-        <li [routerLink]="['']" *ngIf="sessionService.currentUserName != null" (click)="logout()"><a>Log out</a></li>
+        <li *ngIf="sessionService.currentUserName != null" (click)="logout()"><a>Log out</a></li>
       </ul>
     </div>
   </div>

@@ -9,16 +9,16 @@ import {shareReplay} from 'rxjs/operators';
 })
 export class SessionSbService {
   public readonly BACKEND_AUTH_URL = 'http://localhost:8080/authenticate';
-  private readonly BS_TOKEN_NAME = 'AE_SB_AUTH_TOKEN';
+  private readonly BS_TOKEN_NAME = 'token';
 
   public currentUserName: string = null;
 
   constructor(private http: HttpClient) {
+    // check if there is some token in the storage
     this.getTokenFromSessionStorage();
   }
 
-  // logs on to the backend, and retrieves user details and the JWT authentication token
-  // from the backend
+  // logs on to the backend, and retrieves user details and the JWT authentication token from the backend
   signOn(email: string, password: string): Observable<any> {
     console.log('signon ' + email + '/' + password);
     const signInReponse =
@@ -44,19 +44,18 @@ export class SessionSbService {
     return signInReponse;
   }
 
-  // discards user details and the JWT authentication token from the session (and local
-  // browser storage)
+  // discards user details and the JWT authentication token from the session
   signOff(): void {
     sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
   }
 
-  // indicates whether a user has been logged on into the session or not.
+  // indicates whether a user has been logged on into the session or not
   isAuthenticated(): boolean {
     return this.currentUserName != null;
   }
 
-  // retrieves the JWT authentication token and user details from the session (or local
-  // browser storage).
+  // retrieves the JWT authentication token and user details from the session
   // allow for different user sessions from the same computer
   getTokenFromSessionStorage(): string {
     let token = sessionStorage.getItem(this.BS_TOKEN_NAME);
@@ -64,15 +63,16 @@ export class SessionSbService {
       token = localStorage.getItem(this.BS_TOKEN_NAME);
       sessionStorage.setItem(this.BS_TOKEN_NAME, token);
     }
-    return sessionStorage.getItem('token');
+    return token;
   }
 
-  // saves the JWT authentication token and user details into the session (and local
-  // browser storage).
+  // saves the JWT authentication token and user details into the session
   saveTokenIntoSessionStorage(token: string, username: string): void {
+    // setting the token
     token = token.replace('Bearer ', '');
-    sessionStorage.setItem('token', token);
+    sessionStorage.setItem(this.BS_TOKEN_NAME, token);
 
+    // setting the user details
     this.currentUserName = username;
   }
 }

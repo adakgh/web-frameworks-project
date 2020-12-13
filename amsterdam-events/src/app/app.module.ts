@@ -40,6 +40,7 @@ import {NavBarSbComponent} from './components/mainpage/nav-bar-sb/nav-bar-sb.com
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
+  {path: 'login', component: SignonComponent},
   {
     path: 'events', children: [
       {path: 'overview1', component: Overview1Component},
@@ -67,7 +68,6 @@ const routes: Routes = [
       }
     ]
   },
-  {path: 'login', component: SignonComponent},
   {path: '**', component: ErrorComponent}
 ];
 
