@@ -65,7 +65,7 @@ export class SessionSbService {
     }
 
     // setting username by getting it from the token
-    this.currentUserName = token.substring(token.lastIndexOf('.') + 1);
+    this.currentUserName = token.substring(token.lastIndexOf('-') + 1);
     return token;
   }
 
@@ -73,8 +73,8 @@ export class SessionSbService {
   saveTokenIntoSessionStorage(token: string, username: string): void {
     // setting the token and including the username
     token = token.replace('Bearer ', '');
-    sessionStorage.setItem(this.BS_TOKEN_NAME, token + '.' + username);
-    localStorage.setItem(this.BS_TOKEN_NAME, token + '.' + username);
+    sessionStorage.setItem(this.BS_TOKEN_NAME, token + '-' + username);
+    localStorage.setItem(this.BS_TOKEN_NAME, token + '-' + username);
 
     console.log('New token for user: ' + token + username);
 
