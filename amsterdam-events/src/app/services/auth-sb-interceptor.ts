@@ -14,7 +14,8 @@ export class AuthSbInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.session.getTokenFromSessionStorage();
 
-    if (token != null) {
+    // check if the token is not "null"
+    if (token.length > 10) {
       // pass on the cloned request to the next handler
       const headersConfig = {
         Authorization: 'Bearer ' + token

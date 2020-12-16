@@ -11,3 +11,7 @@ img {
 body {
   width: 100%;
 }
+
+.card-container {
+  width: 107%;
+}

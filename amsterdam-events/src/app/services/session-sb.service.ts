@@ -52,7 +52,7 @@ export class SessionSbService {
 
   // indicates whether a user has been logged on into the session or not
   isAuthenticated(): boolean {
-    return this.currentUserName != null;
+    return this.getTokenFromSessionStorage() != null && this.getTokenFromSessionStorage() !== 'null';
   }
 
   // retrieves the JWT authentication token and user details from the session
@@ -63,19 +63,23 @@ export class SessionSbService {
       token = localStorage.getItem(this.BS_TOKEN_NAME);
       sessionStorage.setItem(this.BS_TOKEN_NAME, token);
     }
+
+    // setting username by getting it from the token
+    this.currentUserName = token.substring(token.lastIndexOf('.') + 1);
     return token;
   }
 
   // saves the JWT authentication token and user details into the session
   saveTokenIntoSessionStorage(token: string, username: string): void {
-    // setting the token
+    // setting the token and including the username
     token = token.replace('Bearer ', '');
-    sessionStorage.setItem(this.BS_TOKEN_NAME, token);
-    localStorage.setItem(this.BS_TOKEN_NAME, token);
+    sessionStorage.setItem(this.BS_TOKEN_NAME, token + '.' + username);
+    localStorage.setItem(this.BS_TOKEN_NAME, token + '.' + username);
 
-    console.log('New token for user: ' + token);
+    console.log('New token for user: ' + token + username);
 
     // setting the user details
     this.currentUserName = username;
   }
+
 }

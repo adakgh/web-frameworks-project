@@ -29,8 +29,10 @@ export class SignonComponent implements OnInit {
     this.form2object();
     this.sessionService.signOn(this.loginData.email, this.loginData.password).subscribe(
       data => {
-      this.router.navigate(['']);
-    }, (error) => {
+        this.router.navigate(['']).then(() => {
+          window.location.reload();
+        });
+      }, (error) => {
         alert('Emailaddress and/or password are incorrect! Please try again');
         console.log(error);
       });
