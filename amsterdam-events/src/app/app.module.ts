@@ -27,6 +27,7 @@ import {Overview5Component} from './components/events/overview5/overview5.compon
 import {HeaderSbComponent} from './components/mainpage/header-sb/header-sb.component';
 import {SignonComponent} from './components/mainpage/signon/signon.component';
 import {NavBarSbComponent} from './components/mainpage/nav-bar-sb/nav-bar-sb.component';
+import { Detail51Component } from './components/events/detail51/detail51.component';
 
 // const appRoutes: Routes = [
 //   {path: 'home', component: HomeComponent},
@@ -95,7 +96,8 @@ const routes: Routes = [
     Overview5Component,
     HeaderSbComponent,
     SignonComponent,
-    NavBarSbComponent
+    NavBarSbComponent,
+    Detail51Component
   ],
   imports: [
     BrowserModule,
