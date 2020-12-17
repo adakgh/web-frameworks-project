@@ -52,11 +52,11 @@
 
     </table>
     <br>
-    <button (click)="deleteClick()" [disabled]="!hasChanged()" type="btn">Delete</button>
-    <button (click)="saveClick()" [disabled]="hasChanged() || !editForm.valid" type="btn">Save</button>
-    <button (click)="clearClick()" type="btn">Clear</button>
-    <button (click)="resetClick()" [disabled]="hasChanged()" type="btn">Reset</button>
-    <button (click)="cancelClick()" type="btn">Cancel</button>
+    <button (click)="deleteClick()" [disabled]="!hasChanged()" class="btn">Delete</button>
+    <button (click)="saveClick()" [disabled]="hasChanged() || !editForm.valid" class="btn">Save</button>
+    <button (click)="clearClick()" class="btn">Clear</button>
+    <button (click)="resetClick()" [disabled]="hasChanged()" class="btn">Reset</button>
+    <button (click)="cancelClick()" class="btn">Cancel</button>
 
     <span class="validationError alert alert-warning"
           *ngIf="!titleComponent.valid || !descriptionComponent.valid || !participationFee.valid || !maxParticipationFee.valid">

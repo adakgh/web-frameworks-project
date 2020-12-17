@@ -81,5 +81,4 @@ export class SessionSbService {
     // setting the user details
     this.currentUserName = username;
   }
-
 }
