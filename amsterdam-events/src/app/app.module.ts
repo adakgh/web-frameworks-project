@@ -65,6 +65,12 @@ const routes: Routes = [
           {path: '', pathMatch: 'full', redirectTo: '/events/overview5/-1'},
           {path: ':id', component: Detail5Component}
         ]
+      },
+      {
+        path: 'overview51', component: Overview5Component, children: [
+          {path: '', pathMatch: 'full', redirectTo: '/events/overview5/-1'},
+          {path: ':id', component: Detail51Component}
+        ]
       }
     ]
   },
