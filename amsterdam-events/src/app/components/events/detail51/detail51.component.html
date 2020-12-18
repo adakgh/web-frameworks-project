@@ -17,10 +17,11 @@
 
         <tr>
             <td>Description</td>
-            <td><input type="text" #descriptionComponent="ngModel" [(ngModel)]="editedAEvent.description" required></td>
-<!--            <div *ngIf="!descriptionComponent.valid && descriptionComponent.touched" class="alert alert-warning">Please-->
-<!--                enter a description-->
-<!--            </div>-->
+            <td><input type="text" ngModel name="description" #descriptionComponent="ngModel"
+                       [(ngModel)]="editedAEvent.description" required></td>
+            <!--            <div *ngIf="!descriptionComponent.valid && descriptionComponent.touched" class="alert alert-warning">Please-->
+            <!--                enter a description-->
+            <!--            </div>-->
         </tr>
 
         <tr>
@@ -37,8 +38,8 @@
             <td><input type="checkbox" [(ngModel)]="editedAEvent.ticketed"></td>
         </tr>
 
-<!--       todo if participation fee > 0 then isTicketed has to be specified-->
-<!--       todo shall be a multiple of 0.05 cents-->
+        <!--       todo if participation fee > 0 then isTicketed has to be specified-->
+        <!--       todo shall be a multiple of 0.05 cents-->
         <tr>
             <td> Participation fee</td>
             <td><input ngModel name="participationFee" required pattern="^[0-9]+.[0-9]+$"
