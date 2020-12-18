@@ -45,3 +45,31 @@ th {
 .btnDelete:hover {
     background-color: dimgray;
 }
+
+#tabelDetail51 th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: red;
+    color: white;
+}
+
+.aform.validation input.ng-valid.ng-touched,.aform.validation input.ng-valid.ng-untouched, .aform.validation input.ng-valid.ng-dirty, .aform.validation input.ng-valid.ng-dirty.ng-touched {
+    background-color: #beb;
+}
+
+.aform.validation input.ng-invalid.ng-touched, .aform.validation input.ng-invalid.ng-untouched, .aform.validation input.ng-invalid.ng-dirty, .aform.validation select.ng-invalid.ng-touched {
+    background-color: #e8491d;
+}
+
+.validationError {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding: 15px 10px 15px 60px;
+    background-repeat: no-repeat;
+    background-position: 20px center;
+    color: #D63301;
+    background-color: #FFCCBA;
+    background-image: url('https://i.imgur.com/GnyDvKN.png');
+}
+

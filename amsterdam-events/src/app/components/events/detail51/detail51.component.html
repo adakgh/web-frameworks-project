@@ -1,4 +1,4 @@
-<form class="validation" *ngIf="editedAEventId != -1; else text"
+<form class="validation aform" *ngIf="editedAEventId != -1; else text"
       #editForm="ngForm" (keydown.enter)="$event.preventDefault()">
 
     <table class="tabelSelect">
@@ -8,10 +8,11 @@
 
         <tr>
             <td>Title</td>
-            <td><input type="text" #titleComponent="ngModel" [(ngModel)]="editedAEvent.title" required></td>
-<!--            <div *ngIf="!titleComponent.valid && titleComponent.touched" class="alert alert-warning">Please enter a-->
-<!--                title with at least 5 characters-->
-<!--            </div>-->
+            <td><input type="text" ngModel name="title" required #titleComponent="ngModel" minlength="5"
+                       [(ngModel)]="editedAEvent.title"></td>
+            <!--            <div *ngIf="!titleComponent.valid && titleComponent.touched" class="alert alert-warning">Please enter a-->
+            <!--                title with at least 5 characters-->
+            <!--            </div>-->
         <tr>
 
         <tr>
@@ -40,27 +41,28 @@
 <!--       todo shall be a multiple of 0.05 cents-->
         <tr>
             <td> Participation fee</td>
-            <td><input ngModel name="participationFee" required pattern=""
+            <td><input ngModel name="participationFee" required pattern="^[0-9]+.[0-9]+$"
                        type="text" #participationFee="ngModel" [(ngModel)]="editedAEvent.participationFee"></td>
         </tr>
 
         <tr>
             <td>Maximum participants</td>
-            <td><input ngModel name="maxParticipationFee" required pattern=""
+            <td><input ngModel name="maxParticipationFee" required pattern="[0-9]*"
                        type="number" #maxParticipationFee="ngModel" [(ngModel)]="editedAEvent.maxParticipants"></td>
         </tr>
 
     </table>
     <br>
-    <button (click)="deleteClick()" [disabled]="!hasChanged()" class="btn">Delete</button>
-    <button (click)="saveClick()" [disabled]="hasChanged() || !editForm.valid" class="btn">Save</button>
-    <button (click)="clearClick()" class="btn">Clear</button>
-    <button (click)="resetClick()" [disabled]="hasChanged()" class="btn">Reset</button>
-    <button (click)="cancelClick()" class="btn">Cancel</button>
-
+    <button (click)="deleteClick()" [disabled]="!hasChanged()" type="btn">Delete</button>
+    <button (click)="saveClick()" [disabled]="hasChanged() || !editForm.valid" type="btn">Save</button>
+    <button (click)="clearClick()" type="btn">Clear</button>
+    <button (click)="resetClick()" [disabled]="hasChanged()" type="btn">Reset</button>
+    <button (click)="cancelClick()" type="btn">Cancel</button>
+    <br><br>
     <span class="validationError alert alert-warning"
           *ngIf="!titleComponent.valid || !descriptionComponent.valid || !participationFee.valid || !maxParticipationFee.valid">
-        Please fix the input errors of the highlighted fields</span>
+        Please fix the input errors of the highlighted fields
+  <span *ngIf="!titleComponent.valid">such as the title needs at least 5 characters</span></span>
 </form>
 
 <ng-template #text>

@@ -60,5 +60,6 @@ public class AeserverApplication implements CommandLineRunner {
             this.aEventsRepository.save(aEvent);
             this.userRepository.save(user);
         }
+
     }
 }
