@@ -84,6 +84,7 @@ export class Detail51Component implements OnInit, OnDestroy {
       const event = new AEvent();
       event.id = this.editedAEvent.id;
       this.editedAEvent = event;
+      this.detailForm.form.markAsPristine();
     }
     return null;
   }
@@ -92,6 +93,7 @@ export class Detail51Component implements OnInit, OnDestroy {
     if (this.popup()) {
       this.editedAEvent = Object.assign({}, this.aEventService.findById(this.editedAEventId));
       this.router.navigate(['..'], {relativeTo: this.activatedRoute});
+      this.detailForm.form.markAsPristine();
     }
     return null;
   }

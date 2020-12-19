@@ -1,71 +1,71 @@
 <form class="validation aform" *ngIf="editedAEventId != -1; else text"
       #editForm="ngForm" (keydown.enter)="$event.preventDefault()">
 
-    <table class="tabelSelect">
-        <tr>
-            <th>Selected Event details (id = {{editedAEvent.id}})</th>
-        </tr>
+  <table class="tabelSelect">
+    <tr>
+      <th>Selected Event details (id = {{editedAEvent.id}})</th>
+    </tr>
 
-        <tr>
-            <td>Title</td>
-            <td><input type="text" ngModel name="title" required #titleComponent="ngModel" minlength="5"
-                       [(ngModel)]="editedAEvent.title"></td>
-            <!--            <div *ngIf="!titleComponent.valid && titleComponent.touched" class="alert alert-warning">Please enter a-->
-            <!--                title with at least 5 characters-->
-            <!--            </div>-->
-        <tr>
+    <tr>
+      <td>Title</td>
+      <td><input type="text" ngModel name="title" required #titleComponent="ngModel" minlength="5"
+                 [(ngModel)]="editedAEvent.title"></td>
+    <tr>
 
-        <tr>
-            <td>Description</td>
-            <td><input type="text" ngModel name="description" #descriptionComponent="ngModel"
-                       [(ngModel)]="editedAEvent.description" required></td>
-            <!--            <div *ngIf="!descriptionComponent.valid && descriptionComponent.touched" class="alert alert-warning">Please-->
-            <!--                enter a description-->
-            <!--            </div>-->
-        </tr>
+    <tr>
+      <td>Description</td>
+      <td><input type="text" ngModel name="description" #descriptionComponent="ngModel"
+                 [(ngModel)]="editedAEvent.description" required></td>
+    </tr>
 
-        <tr>
-            <td>Status</td>
-            <td>
-                <select name="status" class="custom-select" [(ngModel)]="editedAEvent.status">
-                    <option *ngFor="let status of getEventStatus()" [ngValue]="status">{{status}}</option>
-                </select>
-            </td>
-        </tr>
+    <tr>
+      <td>Status</td>
+      <td>
+        <select name="status" class="custom-select" [(ngModel)]="editedAEvent.status">
+          <option *ngFor="let status of getEventStatus()" [ngValue]="status">{{status}}</option>
+        </select>
+      </td>
+    </tr>
 
-        <tr>
-            <td> Is Ticketed</td>
-            <td><input type="checkbox" [(ngModel)]="editedAEvent.ticketed"></td>
-        </tr>
+    <tr>
+      <td> Is Ticketed</td>
+      <td><input type="checkbox" ngModel name="ticketed" #ticketedComponent="ngModel"
+                 [(ngModel)]="editedAEvent.ticketed" [required]="participationFeeComponent.value > 0"></td>
+    </tr>
 
-        <!--       todo if participation fee > 0 then isTicketed has to be specified-->
-        <!--       todo shall be a multiple of 0.05 cents-->
-        <tr>
-            <td> Participation fee</td>
-            <td><input ngModel name="participationFee" required pattern="^[0-9]+.[0-9]+$"
-                       type="text" #participationFee="ngModel" [(ngModel)]="editedAEvent.participationFee"></td>
-        </tr>
+    <tr>
+      <td> Participation fee</td>
+      <td><input ngModel name="participationFee" required pattern="^[0-9]+(.-?\d*[0.5]+)?$"
+                 type="number" #participationFeeComponent="ngModel" [(ngModel)]="editedAEvent.participationFee"></td>
+    </tr>
 
-        <tr>
-            <td>Maximum participants</td>
-            <td><input ngModel name="maxParticipationFee" required pattern="[0-9]*"
-                       type="number" #maxParticipationFee="ngModel" [(ngModel)]="editedAEvent.maxParticipants"></td>
-        </tr>
+    <tr>
+      <td>Maximum participants</td>
+      <td><input ngModel name="maxParticipationFee" required pattern="[0-9]*"
+                 type="number" #maxParticipationFeeComponent="ngModel" [(ngModel)]="editedAEvent.maxParticipants"></td>
+    </tr>
 
-    </table>
-    <br>
-    <button (click)="deleteClick()" [disabled]="!hasChanged()" type="btn">Delete</button>
-    <button (click)="saveClick()" [disabled]="hasChanged() || !editForm.valid" type="btn">Save</button>
-    <button (click)="clearClick()" type="btn">Clear</button>
-    <button (click)="resetClick()" [disabled]="hasChanged()" type="btn">Reset</button>
-    <button (click)="cancelClick()" type="btn">Cancel</button>
-    <br><br>
-    <span class="validationError alert alert-warning"
-          *ngIf="!titleComponent.valid || !descriptionComponent.valid || !participationFee.valid || !maxParticipationFee.valid">
-        Please fix the input errors of the highlighted fields
-  <span *ngIf="!titleComponent.valid">such as the title needs at least 5 characters</span></span>
+  </table>
+  <br>
+  <button (click)="deleteClick()" [disabled]="!hasChanged()">Delete</button>
+  <button (click)="saveClick()" [disabled]="hasChanged() || editForm.invalid">Save</button>
+  <button (click)="clearClick()">Clear</button>
+  <button (click)="resetClick()" [disabled]="hasChanged()">Reset</button>
+  <button (click)="cancelClick()">Cancel</button>
+  <br>
+  <br>
+
+  <p class="validationError alert alert-warning"
+     *ngIf="titleComponent.invalid || descriptionComponent.invalid || participationFeeComponent.invalid || maxParticipationFeeComponent.invalid || ticketedComponent.invalid">
+    <b>Please fix the input errors of the highlighted fields</b>
+    <br><span *ngIf="titleComponent.invalid">- the title needs at least 5 characters</span>
+    <br><span *ngIf="descriptionComponent.invalid">- the description is required</span>
+    <br><span *ngIf="participationFeeComponent.invalid">- the participation fee can be 0 or needs to be a multiple of 0.05 cents</span>
+    <br><span *ngIf="ticketedComponent.invalid">- the ticketed checkbox needs to be specified if the participation fee is not 0</span>
+    <br><span *ngIf="maxParticipationFeeComponent.invalid">- the maximum participants is required</span>
+  </p>
 </form>
 
 <ng-template #text>
-    Select an event at the left
+  Select an event at the left
 </ng-template>
